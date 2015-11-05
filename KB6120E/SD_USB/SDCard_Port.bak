@@ -1,0 +1,35 @@
+#ifndef __SDCARD_PORT_H
+#define __SDCARD_PORT_H
+#include <stdio.h>
+#include <string.h>
+#include "Pin.H"
+#include "file_sys.h"
+#include "CH376INC.h"
+#ifndef	__bool_true_false_are_defined
+	#include <stdbool.h>
+	typedef	bool	BOOL;
+// 	#define	TRU	true
+// 	#define	FALS	false
+#endif
+
+//根目录操作
+void SD_CREAT_CON_DIR ( const char * BUF_Name );
+void SD_CREAT_WRITE_DIR ( const char * BUF_Name, uint8_t * Content, uint32_t offset );
+void SD_OPEN_READ_DIR ( const char * BUF_Name , uint32_t Addr, uint8_t * bufread, uint32_t offset );
+void SD_OPEN_WRITE_DIR ( const char * BUF_Name , uint8_t * Content , uint32_t Addr, uint32_t offset );
+//多层目录操作
+void SD_CREAT_WRITE_PATH ( const char * BUF_Name , uint8_t * Content ,uint32_t offset );
+uint8_t SD_OPEN_READ_PATH ( const char * BUF_Name , uint32_t Addr, uint8_t* bufread, uint32_t offset );
+uint8_t SD_OPEN_WRITE_PATH ( const char * BUF_Name ,   uint8_t * Content , uint32_t Addr, uint32_t offset );
+//SD卡初始化
+void SD_Init(void);
+//void SDInit_Test(void);
+//SD接口
+BOOL SDLoad( const char * B_Name , uint32_t Addr, uint8_t * bufread, uint32_t offset  );
+BOOL SDSave( const char * BUF_Name ,  uint8_t * Content , uint32_t Addr,uint32_t offset );
+BOOL SDFill( const char * BUF_Name , uint32_t Addr , uint8_t size);
+ 										//		文件名称 			写起始地址					要写的数量
+uint32_t SDGetSize(const char * BUF_Name);
+void test(void);
+#endif
+/**/
