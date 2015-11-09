@@ -551,8 +551,10 @@ bool	SED1335_Init( void )
 	//	显示开关指令
 	SED1335_Write_Command( 0x59 );	// Display ON/OFF(带1个参数)
 	SED1335_Write_Data( 0x14 );		//	第1、2显示区显示开
-
+	
+	SED1335_cls();
 	LM2068E_GrayInit();
+	
 	return	true;
 }
 
