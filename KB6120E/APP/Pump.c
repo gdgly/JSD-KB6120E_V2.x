@@ -16,19 +16,25 @@
 *******************************************************************************/
 static	FP32	MotorPID_fetchRunValue( enum enumPumpSelect PumpSelect )
 {
-	FP32	fstd = get_fstd( PumpSelect );	
-	FP32	Te   = get_Te();
-	FP32	Ba   = get_Ba();
-	FP32	flow = Calc_flow( fstd, Te, 0.0f, Ba );
 	switch( PumpSelect )
 	{
     case PP_TSP:
+		{
+			FP32	fstd = get_fstd( PumpSelect );	
+			FP32	Te   = get_Te();
+			FP32	Ba   = get_Ba();
+			FP32	flow = Calc_flow( fstd, Te, 0.0f, Ba, Q_TSP );
+
 			return	flow;
+		}
 		case PP_R24_A:
 		case PP_R24_B:
 		case PP_SHI_C:
 		case PP_SHI_D:
+		{
+			FP32	fstd = get_fstd( PumpSelect );
 			return	fstd;
+		}
 		default:
 		case PP_AIR:
 			return 0;

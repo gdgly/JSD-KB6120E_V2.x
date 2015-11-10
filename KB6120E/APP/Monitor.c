@@ -160,23 +160,16 @@ void PumpWorkFlag( void )
 	WBMP(0x1818,0x010A, PUMP4 );
 }
 static	FP32	fstdx[4][PP_Max];
-static	FP32	flowx[4][PP_Max];
 static	FP32	fstd ;
 void Sampler_TdMonitor( enum enumSamplerSelect SamplerSelect )
 {	
-  FP32	Te   = get_Te();
-  FP32	Ba   = get_Ba();
   switch(  SamplerSelect )
   {	
     case Q_TSP:
       fstdx[0][PP_TSP] = fstdx[1][PP_TSP];
       fstdx[1][PP_TSP] = fstdx[2][PP_TSP];
       fstdx[2][PP_TSP] = fstdx[3][PP_TSP];
-      fstdx[3][PP_TSP] = get_fstd( PP_TSP );
-      flowx[0][PP_TSP] = flowx[1][PP_TSP];
-      flowx[1][PP_TSP] = flowx[2][PP_TSP];
-      flowx[2][PP_TSP] = flowx[3][PP_TSP];
-      flowx[3][PP_TSP] = Calc_flow( fstdx[3][PP_TSP], Te, 0.0f, Ba );      
+      fstdx[3][PP_TSP] = get_fstd( PP_TSP );    
       break;
     case Q_SHI:
       fstdx[0][PP_SHI_C] = fstdx[1][PP_SHI_C];
@@ -302,9 +295,10 @@ static	void	ShowPumpBefore( enum enumPumpSelect PumpSelect )
 		{
 		case PP_TSP: // TSP_KB120F
 			{
-				
+				FP32	Te   = get_Te();
+				FP32	Ba   = get_Ba();
 				FP32	flow;
-				flow = ( flowx[0][PumpSelect] + flowx[1][PumpSelect] + flowx[2][PumpSelect] + flowx[3][PumpSelect] ) / 4; 
+				flow = Calc_flow( fstd, Te, 0.0f, Ba, Q_TSP );
 				Lputs ( 0x0602u, "工况体积: " );		ShowFP32 ( 0x0613u, p->vd,       0x0600u, "L" );
 				Lputs ( 0x0902u, "标况体积: " );		ShowFP32 ( 0x0913u, p->vnd,      0x0600u, "L" );
 				Lputs ( 0x0C02u, "工   况: " );		ShowFP32    ( 0x0C11u, flow, 0x0701u, "L/m" );

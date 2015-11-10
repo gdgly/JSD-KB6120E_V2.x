@@ -28,8 +28,8 @@ CHAR  const * const ExNameIdent2[] =
 };
 CHAR  const * const EditionNum[] =
 {
-   "KB6120E V1.03",	//	内部版本
-	__DATE__" V1.00",	//	显示版本
+   "KB6120E V2.04",	//	内部版本
+	__DATE__" V2.00",	//	显示版本
 };
 static	void	ShowEdition_NoName( void )
 {
