@@ -896,7 +896,6 @@ static	void	Configure_Flow_KB6120C( void )
 					}
 					break;
 				case 2:
-					Lputs(0x0C1C," kPa");
 					if( EditI16U( 0x0C0Fu, & Configure.SetFlow[PP_R24_B], 0x0503u ))
             {
                 if ( Configure.SetFlow[PP_R24_B] >  300u )
@@ -973,7 +972,7 @@ static	void	menu_ConfigureFlow( void )
 /********************************** 功能说明 ***********************************
 *  配置标况流量的定义温度
 *******************************************************************************/
-void	menu_SelectTstd( void )
+static	void	menu_SelectTstd( void )
 {
     static  struct  uMenu  const  menu[] =
     {
@@ -1041,7 +1040,7 @@ void	menu_SelectTstd( void )
         ConfigureSave();
     }
 }
-void menu_ChangePassword( void )
+static	void	menu_ChangePassword( void )
 {
 
  uint32_t  passwordi, passwordii;
@@ -1090,7 +1089,7 @@ void menu_ChangePassword( void )
  }while( !Done );
  
 }
-void menu_SelectOther( void )
+static	void	menu_SelectOther( void )
 {
 		static  struct  uMenu  const  menu[] =
     {

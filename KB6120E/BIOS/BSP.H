@@ -113,6 +113,7 @@ extern	void	Lputs( uint16_t yx, const CHAR * sz );
 extern	void  WALL( const CHAR *sz );
 extern	void  WBMP( uint16_t bmpyx, uint16_t yx, const CHAR *sz );
 extern	void	SEDLputs( uint16_t yx, const CHAR * sz );
+extern	const	CHAR	CHARsz[24];
 extern	void	LcmMask( uint16_t yx, uint8_t xlen, const CHAR * sz );
 // extern	void	Lmask( uint16_t yx, uint8_t xlen );
 

@@ -466,6 +466,7 @@ void	menu_FactoryDebug( void )
             case opt_SHI_C:
             case opt_SHI_D:
 				OutState[PumpSelect] = FALSE;
+				Motor_SetOutput( PumpSelect, 0 );
 				Motor_OutCmd   ( PumpSelect, OutState[PumpSelect] );
 				break;
             case opt_AIR:		

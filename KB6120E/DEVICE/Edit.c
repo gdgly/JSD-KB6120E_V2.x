@@ -167,13 +167,13 @@ BOOL	EditClockDate( uint16_t yx, uClock * pClock )
         switch( option )
         {
         case 1:
-            LcmMask( yx  , 4,NULL );
+            LcmMask( yx   , 4, CHARsz );
             break;	// year
         case 2:
-            LcmMask( yx+10, 2,NULL );
+            LcmMask( yx+10, 2, CHARsz );
             break;	// month
         case 3:
-            LcmMask( yx+16, 2,NULL );
+            LcmMask( yx+16, 2, CHARsz );
             break;	// day_m
         default:
             break;
@@ -334,13 +334,13 @@ BOOL	EditClockTime( uint16_t yx, uClock * pClock )
         switch( option )
         {
         case 1:
-            LcmMask( yx  , 2,NULL );
+            LcmMask( yx  , 2, CHARsz );
             break;  // hour
         case 2:
-            LcmMask( yx+6, 2,NULL );
+            LcmMask( yx+6, 2, CHARsz );
             break;  // minute
         case 3:
-            LcmMask( yx+12, 2,NULL );
+            LcmMask( yx+12, 2, CHARsz );
             break;  // second
         default:
             break;
@@ -500,16 +500,16 @@ BOOL	EditTIME( uint16_t yx, uint16_t * pTime )
         switch( option )
         {
         case 1:
-            LcmMask( yx + 0u, 1u,NULL );
+            LcmMask( yx + 0u, 1u, CHARsz );
             break;  // 10 hour
         case 2:
-            LcmMask( yx + 2u, 1u,NULL );
+            LcmMask( yx + 2u, 1u, CHARsz );
             break;  //  1 hour
         case 3:
-            LcmMask( yx + 6u, 1u,NULL );
+            LcmMask( yx + 6u, 1u, CHARsz );
             break;  // 10 minute
         case 4:
-            LcmMask( yx + 8u, 1u,NULL );
+            LcmMask( yx + 8u, 1u, CHARsz );
             break;  //  1 minute
         default:
             break;
@@ -706,11 +706,11 @@ BOOL	EditI32U( uint16_t yx, uint32_t * pNUM, uint16_t fmt )
 
         if ( choice < ( M - N ))
         {
-            LcmMask( yx + choice * 2, 1, NULL );		//	输入位置在小数点之前
+            LcmMask( yx + choice * 2, 1,  CHARsz );		//	输入位置在小数点之前
         }
         else
         {
-            LcmMask( yx + choice * 2 + 2, 1, NULL );	//	输入位置在小数点之后
+            LcmMask( yx + choice * 2 + 2, 1,  CHARsz );	//	输入位置在小数点之后
         }
 
         if (  M >= ( choice + 1u ))

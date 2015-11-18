@@ -9,7 +9,28 @@
 *******************************************************************************/
 #include "AppDEF.H"
 #include "BMP.H"
+#define	T_KB6120C
+// #define	T_KB6120B
+// #define	T_KB2400D
+// #define	T_KB2400
+extern	uint32_t	eDataValidMask; 
+void	EditionSelsct( void )
+{
+#define	T_KB6120C
+// #define	T_KB6120B
+// #define	T_KB2400D
+// #define	T_KB2400
+	#ifdef	T_KB6120C
+		eDataValidMask = 0x5A3A;
+	#elif	defined	T_KB6120B
+		eDataValidMask = 0x5A3B;
+	#elif	defined	T_KB2400D
+		eDataValidMask = 0x5A3C;
+	#elif	defined	T_KB2400
+		eDataValidMask = 0x5A3D;
+	#endif
 
+}
 /********************************** 功能说明 ***********************************
 *  根据仪器型号显示版本信息
 *  根据销售人员要求，可能会改成其他厂家名称，或者干脆不显示。
@@ -28,7 +49,7 @@ CHAR  const * const ExNameIdent2[] =
 };
 CHAR  const * const EditionNum[] =
 {
-   "KB6120E V2.04",	//	内部版本
+   "KB6120E V2.05",	//	内部版本
 	__DATE__" V2.00",	//	显示版本
 };
 static	void	ShowEdition_NoName( void )
@@ -96,11 +117,8 @@ CHAR  const * const szTypeIdent[] =
 		"KB-6120B",
 		"KB-2400D",
 		"KB-2400 ",   
-
-//   "KB-6120BD",
-//    "KB-6120BH",
-//    "KB-6120C",
-//    "KB-2400",
+//		"KB-6120BD",
+//		"KB-6120BH",
 };
 
 CHAR  const * const szNameIdent[] =
@@ -112,10 +130,7 @@ CHAR  const * const szNameIdent[] =
 	"恒温恒流采样器  ",
 	"智能恒流采样器  ",
 };
-#define	T_KB6120C
-// #define	T_KB6120B
-// #define	T_KB2400D
-// #define	T_KB2400
+
 static	void	ConfigureLoad_KB6120C( void )
 {
 	#ifdef	T_KB6120C

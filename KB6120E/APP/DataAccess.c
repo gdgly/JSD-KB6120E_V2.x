@@ -289,6 +289,7 @@ void	CalibrateLoad( void )
 	}
 }
 
+uint32_t	eDataValidMask;
 void	ConfigureSave( void )
 {
 	Esave( x_Configure, &Configure, sizeof(Configure));
@@ -296,11 +297,12 @@ void	ConfigureSave( void )
 
 void	ConfigureLoad( void )
 {
+	EditionSelsct();
 	Eload( x_Configure, &Configure, sizeof(Configure));
-	if ( Configure.DataValidMask != 0x55b7u )
+	if ( Configure.DataValidMask != eDataValidMask )
 	{
 		ConfigureLoadDefault();
-		Configure.DataValidMask = 0x55b7u;
+		Configure.DataValidMask = eDataValidMask;
 	}
 }
 

@@ -8,7 +8,7 @@
 * 修订人: 
 *******************************************************************************/
 #include "AppDEF.H"
-
+#include <stm32f10x.h>
 /********************************** 数据定义 ***********************************
 //	标定数据
 *******************************************************************************/
@@ -62,15 +62,15 @@ void	ShowPumpSelect( uint16_t yx, enum enumPumpSelect PumpSelect )
 	}
 }
 
-static	void	CalibrateSave_PP( enum enumPumpSelect PumpSelect )
-{
-	CalibrateSave( );
-}
+// static	void	CalibrateSave_PP( enum enumPumpSelect PumpSelect )
+// {
+// 	CalibrateSave( );
+// }
 
-static	void	CalibrateLoad_PP( enum enumPumpSelect PumpSelect )
-{
-	CalibrateLoad( );
-}
+// static	void	CalibrateLoad_PP( enum enumPumpSelect PumpSelect )
+// {
+// 	CalibrateLoad( );
+// }
 
 
 /********************************** 功能说明 ***********************************
@@ -795,11 +795,11 @@ static	void	Calibrate_Tr ( enum enumPumpSelect PumpSelect )
 				switch( MsgBox( "保存标定数据 ?", vbYesNoCancel + vbDefaultButton3 ))
 				{
 				case vbYes:
-					CalibrateSave_PP( PumpSelect );
+					CalibrateSave();
 					option = opt_exit;
 					break;
 				case vbNo:
-					CalibrateLoad_PP( PumpSelect );
+					CalibrateSave();
 					option = opt_exit;
 					break;
 				default:
@@ -961,11 +961,11 @@ static	void	Calibrate_Pr( enum enumPumpSelect PumpSelect )
 				switch( MsgBox( "保存标定数据 ?", vbYesNoCancel + vbDefaultButton3 ))
 				{
 				case vbYes:
-					CalibrateSave_PP( PumpSelect );
+					CalibrateSave();
 					option = opt_exit;
 					break;
 				case vbNo:
-					CalibrateLoad_PP( PumpSelect );
+					CalibrateSave();
 					option = opt_exit;
 					break;
 				default:
@@ -1126,11 +1126,11 @@ static	void	Calibrate_pf(  enum enumPumpSelect PumpSelect )
 				switch( MsgBox( "保存标定数据 ?", vbYesNoCancel + vbDefaultButton3 ))
 				{
 				case vbYes:
-					CalibrateSave_PP( PumpSelect );
+					CalibrateSave();
 					option = opt_exit;
 					break;
 				case vbNo:
-					CalibrateLoad_PP( PumpSelect );
+					CalibrateSave();
 					option = opt_exit;
 					break;
 				default:
@@ -1200,12 +1200,10 @@ static	void	Calibrate_pf(  enum enumPumpSelect PumpSelect )
 	} while( opt_exit != option );
 }
 
-extern BOOL	EditI32U( uint16_t yx, uint32_t * pNUM, uint16_t fmt );
-
 /********************************** 功能说明 ***********************************
 *  流量调校程序
 *******************************************************************************/
-BOOL	CalibrateFLOW_4_Point_Debug( enum enumPumpSelect PumpSelect, uint16_t FlowKSet[], FP32 const PointSet[], uint8_t PointSelect )
+BOOL	CalibrateFLOW_4_Point_DEBUG( enum enumPumpSelect PumpSelect, uint16_t FlowKSet[], FP32 const PointSet[], uint8_t PointSelect )
 {
 		enum 
 	{
@@ -1275,7 +1273,7 @@ BOOL	CalibrateFLOW_4_Point_Debug( enum enumPumpSelect PumpSelect, uint16_t FlowK
 
 		case K_OK:
 			Flow32 = Configure.SetFlow[PumpSelect] * 100;
-			LcmMask( 0x0C00u, 3u, NULL );
+			LcmMask( 0x0C00u, 3u, CHARsz );
 			if ( EditI32U( 0x0C0Cu, &Flow32, 0x0603u ))
 			{
 				changed = TRUE;
@@ -1434,7 +1432,7 @@ BOOL	CalibrateFlow_1_Point_DEBUG( enum enumPumpSelect PumpSelect, uint16_t * con
 			
 		if( PumpSelect == PP_TSP )
 			{
-				LcmMask( 0x0800u, 3u,NULL );
+				LcmMask( 0x0800u, 3u, CHARsz );
 
 				if ( EditI32U( 0x080Cu, &Flow32, fmt ) )
 				{
@@ -1452,7 +1450,7 @@ BOOL	CalibrateFlow_1_Point_DEBUG( enum enumPumpSelect PumpSelect, uint16_t * con
 			}
 			else
 			{
-				LcmMask( 0x0C00u, 3u,NULL );
+				LcmMask( 0x0C00u, 3u, CHARsz );
 
 				if ( EditI32U( 0x0C0Cu, &Flow32, fmt ) )
 				{
@@ -1652,7 +1650,7 @@ static	BOOL	CalibrateFLOW_4_Point_1_Point( enum enumPumpSelect PumpSelect, uint1
 		switch ( option )
 		{
 		case 1:
-			if ( CalibrateFLOW_4_Point_Debug( PumpSelect, FlowKSet, PointSet, PointSelect ))
+			if ( CalibrateFLOW_4_Point_DEBUG( PumpSelect, FlowKSet, PointSet, PointSelect ))
 			{
 				changed = TRUE;
 			}
@@ -1674,8 +1672,6 @@ static	BOOL	CalibrateFLOW_4_Point_1_Point( enum enumPumpSelect PumpSelect, uint1
 	return	changed;
 }
 
-
-extern FP32  const  PumpPoints[4][4];
 
 FP32  const  PumpPoints[4][4] = 
 {
@@ -1794,14 +1790,14 @@ static	void	menu_Calibrate_Other( void )
 	{
 		{ 0x0202u, "传感器标定" },
 		{ 0x0802u, "大气压" }, { 0x0814u, "环境温度" },
-		{ 0x1002u, "电池电压" }, { 0x1019u, "加热器" },
+		{ 0x1002u, "加热器" }, { 0x1019u, "电池电压" },
 		
 	};
 	static	struct	uMenu const	menu1[] = 
 	{
 		{ 0x0202u, "传感器标定" },
 		{ 0x0802u, "大气压" }, { 0x0814u, "环境温度" },
-		{ 0x1002u, "电池电压" }, { 0x1019u, "恒温箱" },
+		{ 0x1002u, "恒温箱" }, { 0x1019u, "电池电压" },
 		
 	};
 		static	struct	uMenu const	menu2[] = 
@@ -1849,13 +1845,13 @@ static	void	menu_Calibrate_Other( void )
 		case 1:	menu_Calibrate_Ba();	break;
 		case 2:	menu_Calibrate_Te();	break;
 		case 3:	
-			menu_Calibrate_Battery( );
-			break;	
-		case 4:
 			if( Configure.HeaterType == enumHeaterOnly )
 				menu_Calibrate_Heater_Temp();	
 			else
 				menu_Calibrate_HCBox_Temp();		
+			break;	
+		case 4:
+			menu_Calibrate_Battery( );
 			break; 
 		default:	
 			break;
@@ -1868,7 +1864,7 @@ static	void	menu_Calibrate_Other( void )
 * 主菜单 -> 维护菜单 -> 标定菜单
 *******************************************************************************/
 
-void	menu_Calibratex( uint8_t configT )
+static	void	menu_CalibrateAll( uint8_t configT )
 {
 	static	struct	uMenu const	menu[] = 
 	{
@@ -1877,7 +1873,8 @@ void	menu_Calibratex( uint8_t configT )
 		{ 0x1002u, "计压" },{ 0x100Fu, "流量值修正" }, 
 		{ 0x1802u, "差压" },{ 0x1811u, "其他参数" }, 
 	};
-	uint8_t	item = 1u;
+	static	uint8_t	item = 1u;
+	static	uint8_t	sitem = 1u;
 	uint8_t TO = Configure.TimeoutLight;
 	enum	enumPumpSelect	PumpSelect = PP_TSP;
 	Configure.TimeoutLight = 4;
@@ -1897,9 +1894,9 @@ void	menu_Calibratex( uint8_t configT )
 		item = Menu_Select( menu, item, NULL );
 		switch( item )
 		{
-		case 1:		Calibrate_Tr( PumpSelect );		break;
-		case 3:		Calibrate_Pr( PumpSelect );		break;
-		case 5:		Calibrate_pf( PumpSelect );		break;
+		case 1:		Calibrate_Tr( PumpSelect );sitem = 1;		break;
+		case 3:		Calibrate_Pr( PumpSelect );sitem = 3;		break;
+		case 5:		Calibrate_pf( PumpSelect );sitem = 5;		break;
 		case 2:
 			switch ( PumpSelect )
 			{
@@ -1909,7 +1906,7 @@ void	menu_Calibratex( uint8_t configT )
 			case PP_R24_B:	CalibrateZeromain_R24();  	break;
 			case PP_SHI_C:		
 			case PP_SHI_D:	CalibrateZeromain_SHI(); 	break;
-			}
+			}sitem = 2;
 			break;
 		case 4:
 			switch ( PumpSelect )
@@ -1920,10 +1917,11 @@ void	menu_Calibratex( uint8_t configT )
 			case PP_R24_B:	CalibrateFlow_1_Point( PumpSelect );  	break;
 			case PP_SHI_C:
 			case PP_SHI_D:	CalibrateFlow_4_Point( PumpSelect ); 	break;
-			}
+			}sitem = 4;
 			break;
 		case 6:
 			menu_Calibrate_Other();
+			sitem = 6;
 			break;
 		case enumSelectXCH:
 			switch( configT )
@@ -1938,6 +1936,8 @@ void	menu_Calibratex( uint8_t configT )
 		default:
 			break;
 		}
+		if( item == 0xFF )
+			item = sitem;
 	} while( enumSelectESC != item );
 	Configure.TimeoutLight = TO;
 	DisplaySetTimeout( Configure.TimeoutLight );
@@ -1945,17 +1945,15 @@ void	menu_Calibratex( uint8_t configT )
 
 void	menu_Calibrate( void )
 {
-	menu_Calibratex( Configure.InstrumentType );
+	menu_CalibrateAll( Configure.InstrumentType );
 }
-
-/********  (C) COPYRIGHT 2015 青岛金仕达电子科技有限公司  **** End Of File ****/
 
 /********************************** 功能说明 ***********************************
 * 传感器标定->电池电压、电流
 *******************************************************************************/
+
 extern	FP32	get_Bat_Voltage( void );
 extern	FP32	get_Bat_Current( void );
-
 void	menu_Calibrate_Battery( void )
 {
 	struct	uMenu const menu[] = 
@@ -2117,4 +2115,4 @@ void	menu_Calibrate_Battery( void )
 		}
 	} while( opt_exit != option );
 }
-
+/********  (C) COPYRIGHT 2015 青岛金仕达电子科技有限公司  **** End Of File ****/
