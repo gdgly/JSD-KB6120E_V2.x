@@ -452,15 +452,10 @@ void	Query_File_TSP( void )
 			}
 
 			File_Load_TSP ( fname, &File );
-			
-			if ( 0u != File.sample_begin )
+			FileNum = fname;
+			if ( 0u == File.sample_begin )
 			{
-				FileNum = fname;
-			}
-			else
-			{
-				beep();	//	到达最前！"前"面无有效数据
-				File_Load_TSP ( FileNum, &File );
+				beep();	//	此文件可能无效！
 			}
 		}	break;
 
@@ -480,15 +475,16 @@ void	Query_File_TSP( void )
 			}
 
 			File_Load_TSP ( fname, &File );
-
-			if ( 0u != File.sample_begin )
+			if( fname > SampleSet[Q_TSP].FileNum )
 			{
-				FileNum = fname;
-			}
-			else
-			{
-				beep();	//	到达最后，"后"面无有效数据
+				beep();//	到达最后，"后"面无有效数据
 				File_Load_TSP ( FileNum, &File );
+			}
+			else	
+			{
+				if ( 0u == File.sample_begin )
+					beep();
+				FileNum = fname;
 			}
 		}	break;
   
@@ -660,25 +656,20 @@ void	Query_File_R24( void )
 			
 			if ( FileNum == 1u )
 			{
-				fname = 1 ; 
+				fname = 1;
 				beep();
-				MsgBox( "无更多文件!", vbOKOnly );		
+				MsgBox( "无更多文件!", vbOKOnly );
 			}
 			else
 			{
-				fname = FileNum - 1u;
+				fname = FileNum - 1u;			
 			}
 
 			File_Load_R24 ( fname, &File );
-			
-			if ( 0u != File.sample_begin )
+			FileNum = fname;
+			if ( 0u == File.sample_begin )
 			{
-				FileNum = fname;
-			}
-			else
-			{
-				beep();	//	到达最前！"前"面无有效数据
-				File_Load_R24 ( FileNum, &File );
+				beep();	//	此文件可能无效！
 			}
 		}	break;
 
@@ -688,28 +679,28 @@ void	Query_File_R24( void )
 			
 			if ( FileNum == FileNum_Max )
 			{
-				fname =  FileNum_Max;
+				fname = FileNum_Max;
 				beep();
-				MsgBox(  "文件满！", vbOKOnly );
-			} 
+				MsgBox( "文件满！", vbOKOnly );	
+			}
 			else
 			{
 				fname = FileNum + 1u;
 			}
 
 			File_Load_R24 ( fname, &File );
-
-			if ( 0u != File.sample_begin )
+			if( fname > SampleSet[Q_R24].FileNum )
 			{
-				FileNum = fname;
-			}
-			else
-			{
-				beep();	//	到达最后，"后"面无有效数据
+				beep();//	到达最后，"后"面无有效数据
 				File_Load_R24 ( FileNum, &File );
 			}
+			else	
+			{
+				if ( 0u == File.sample_begin )
+					beep();
+				FileNum = fname;
+			}
 		}	break;
-
 		case K_OK:
 			if ( 0u != File.sample_begin )
 			{
@@ -881,23 +872,18 @@ void	Query_File_SHI( void )
 			{
 				fname = 1;
 				beep();
-				MsgBox( "无更多文件!", vbOKOnly );	
+				MsgBox( "无更多文件!", vbOKOnly );
 			}
 			else
 			{
-				fname = FileNum - 1u;
+				fname = FileNum - 1u;			
 			}
 
 			File_Load_SHI ( fname, &File );
-			
-			if ( 0u != File.sample_begin )
+			FileNum = fname;
+			if ( 0u == File.sample_begin )
 			{
-				FileNum = fname;
-			}
-			else
-			{
-				beep();	//	到达最前！"前"面无有效数据
-				File_Load_SHI ( FileNum, &File );
+				beep();	//	此文件可能无效！
 			}
 		}	break;
 
@@ -907,9 +893,9 @@ void	Query_File_SHI( void )
 			
 			if ( FileNum == FileNum_Max )
 			{
-				fname =  FileNum_Max;
+				fname = FileNum_Max;
 				beep();
-				MsgBox(  "文件满！", vbOKOnly );	
+				MsgBox( "文件满！", vbOKOnly );	
 			}
 			else
 			{
@@ -917,17 +903,19 @@ void	Query_File_SHI( void )
 			}
 
 			File_Load_SHI ( fname, &File );
-
-			if ( 0u != File.sample_begin )
+			if( fname > SampleSet[Q_SHI].FileNum )
 			{
-				FileNum = fname;
-			}
-			else
-			{
-				beep();	//	到达最后，"后"面无有效数据
+				beep();//	到达最后，"后"面无有效数据
 				File_Load_SHI ( FileNum, &File );
 			}
+			else	
+			{
+				if ( 0u == File.sample_begin )
+					beep();
+				FileNum = fname;
+			}
 		}	break;
+
 
 		case K_OK:
 			if ( 0u != File.sample_begin )
@@ -1071,25 +1059,20 @@ void	Query_File_AIR( void )
 			
 			if ( FileNum == 1u )
 			{
-				fname =1;
-				beep();	 
-				MsgBox( "No Sooner File", vbOKOnly );
+				fname = 1;
+				beep();
+				MsgBox( "无更多文件!", vbOKOnly );
 			}
 			else
 			{
-				fname = FileNum - 1u;
+				fname = FileNum - 1u;			
 			}
 
 			File_Load_AIR ( fname, &File );
-			
-			if ( 0u != File.sample_begin )
+			FileNum = fname;
+			if ( 0u == File.sample_begin )
 			{
-				FileNum = fname;
-			}
-			else
-			{
-				beep();	//	到达最前！"前"面无有效数据
-				File_Load_AIR ( FileNum, &File );
+				beep();	//	此文件可能无效！
 			}
 		}	break;
 
@@ -1099,9 +1082,9 @@ void	Query_File_AIR( void )
 			
 			if ( FileNum == FileNum_Max )
 			{
-				fname =  FileNum_Max;
-				beep();	
-				MsgBox( "文件满！", vbOKOnly );
+				fname = FileNum_Max;
+				beep();
+				MsgBox( "文件满！", vbOKOnly );	
 			}
 			else
 			{
@@ -1109,15 +1092,16 @@ void	Query_File_AIR( void )
 			}
 
 			File_Load_AIR ( fname, &File );
-
-			if ( 0u != File.sample_begin )
+			if( fname > SampleSet[Q_AIR].FileNum )
 			{
-				FileNum = fname;
-			}
-			else
-			{
-				beep();	//	到达最后，"后"面无有效数据
+				beep();//	到达最后，"后"面无有效数据
 				File_Load_AIR ( FileNum, &File );
+			}
+			else	
+			{
+				if ( 0u == File.sample_begin )
+					beep();
+				FileNum = fname;
 			}
 		}	break;
 

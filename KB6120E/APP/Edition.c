@@ -13,6 +13,8 @@
 // #define	T_KB6120B
 // #define	T_KB2400D
 // #define	T_KB2400
+<<<<<<< HEAD
+=======
 extern	uint32_t	eDataValidMask; 
 void	EditionSelsct( void )
 {
@@ -31,6 +33,7 @@ void	EditionSelsct( void )
 	#endif
 
 }
+>>>>>>> 1112æ—¥å‘çŽ°é—®é¢˜åˆ†æ”¯ä¿®æ”¹
 /********************************** ¹¦ÄÜËµÃ÷ ***********************************
 *  ¸ù¾ÝÒÇÆ÷ÐÍºÅÏÔÊ¾°æ±¾ÐÅÏ¢
 *  ¸ù¾ÝÏúÊÛÈËÔ±ÒªÇó£¬¿ÉÄÜ»á¸Ä³ÉÆäËû³§¼ÒÃû³Æ£¬»òÕß¸É´à²»ÏÔÊ¾¡£

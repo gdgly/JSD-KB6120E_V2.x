@@ -35,7 +35,7 @@ void	SetupFlow_AIR( void )
 		ShowI16U( 0x0616u, iflow, 0x0301u, "L/m" );
 		ShowI16U( 0x1216u, iiflow, 0x0301u, "L/m" );
 
-		item = Menu_Select2( menu, item ,FALSE, NULL );
+		item = Menu_Select2( menu, item + 1, FALSE, NULL );
 
 		switch ( item )
 		{
