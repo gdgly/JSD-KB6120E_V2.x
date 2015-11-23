@@ -223,7 +223,7 @@ static	void	ShowTimeState ( enum enumSamplerSelect SamplerSelect, enum enumPumpS
 		Lputs ( 0x0E02u, "压   力:" );	ShowFP32 ( 0x0E11u, get_Pr( PumpSelect ), 0x0602u, "kPa" );
 		Lputs ( 0x1102u, "大气压力:" );	ShowFP32 ( 0x1111u, get_Ba(),             0x0602u, "kPa" );
 		Lputs ( 0x1402u, "剩余时间:" );	ShowTIME ( 0x1416u, p->timer );	
-		Lputs ( 0x1702u, "采样时间: " );	ShowTIME ( 0x1716u, pT->sum_time );
+		Lputs ( 0x1702u, "采样时间:" );	ShowTIME ( 0x1716u, pT->sum_time );
 		Lputs ( 0x1A02u, "当前次数:" );	ShowI16U ( 0x1A11u, p->loops, 0x0500u, NULL );
 	}
 	else
@@ -309,7 +309,7 @@ static	void	ShowPumpBefore( enum enumPumpSelect PumpSelect )
 				default:
 				case enumHeaterNone:	break;	//	MsgBox( "未安装恒温箱", vbOKOnly );	break;
 				case enumHCBoxOnly:
-					Lputs ( 0x1502u, "恒温箱温度:" );		ShowFP32 ( 0x1513u, get_HCBoxTemp(),     0x0602u, "℃" );
+					Lputs ( 0x1502u, "恒温箱温度:" );		ShowFP32 ( 0x1515u, get_HCBoxTemp(),     0x0602u, "℃" );
 					Lputs ( 0x1802u, "恒温箱输出:" );		ShowFP32 ( 0x1815u, get_HCBoxOutput(),   0x0501u, "% " );
 					Lputs ( 0x1B02u, "恒温箱风扇:" );		ShowI16U ( 0x1B15u, get_HCBoxFanSpeed(), 0x0500u, "RPM" );
 					break;
@@ -329,20 +329,20 @@ static	void	ShowPumpBefore( enum enumPumpSelect PumpSelect )
 		case PP_SHI_C:
 		case PP_SHI_D:
 			Lputs ( 0x0602u, "标况体积: " );		ShowFP32 ( 0x0611u, p->vnd,  0x0702u, "L" );
-			Lputs ( 0x0A02u, "标   况: " );		ShowFP32    ( 0x0A11u, fstd, 0x0703u, "L/m" );
+			Lputs ( 0x0A02u, "标   况: " );		ShowFP32    ( 0x0A13u, fstd, 0x0703u, "L/m" );
 			Lputs ( 0x0E02u, "输   出: " );		ShowPercent ( 0x0E15u, OutValue );
 		switch ( Configure.HeaterType )
 		{
 		default:
 		case enumHeaterNone:	break;	//	MsgBox( "未安装恒温箱", vbOKOnly );	break;
 		case enumHCBoxOnly:
-			Lputs ( 0x1202u, "恒温箱温度:" );		ShowFP32 ( 0x1213u, get_HCBoxTemp(),     0x0602u, "℃" );
+			Lputs ( 0x1202u, "恒温箱温度:" );		ShowFP32 ( 0x1215u, get_HCBoxTemp(),     0x0602u, "℃" );
 			Lputs ( 0x1602u, "恒温箱输出:" );		ShowFP32 ( 0x1615u, get_HCBoxOutput(),   0x0501u, "% " );
 			Lputs ( 0x1A02u, "恒温箱风扇:" );		ShowI16U ( 0x1A15u, get_HCBoxFanSpeed(), 0x0500u, "RPM" );
 			break;	
 		case enumHeaterOnly:
 			Lputs ( 0x1202u, "加热器      " );	
-			Lputs ( 0x1602u, "加热器温度:" );		ShowFP32 ( 0x1613u, get_HeaterTemp(),     0x0602u, "℃" );
+			Lputs ( 0x1602u, "加热器温度:" );		ShowFP32 ( 0x1615u, get_HeaterTemp(),     0x0602u, "℃" );
 			Lputs ( 0x1A02u, "加热器输出:" );		ShowFP32 ( 0x1A15u, get_HeaterOutput(),   0x0501u, "%" );
 			break;
 		case enumHCBoxHeater:
@@ -357,6 +357,7 @@ static	void	ShowPumpBefore( enum enumPumpSelect PumpSelect )
 	}	
 	
 }
+
 
 /************** 功能说明 ****************
         停止暂停状态选择菜单 
@@ -547,6 +548,7 @@ void	disposeKey( const enum enumSamplerSelect SamplerSelect, uint8_t * pOption, 
 			*pPumpSelect = PumpSelect;
 		}
 	}
+
 }
 
 
@@ -637,6 +639,7 @@ static	void	monitor_R24 ( void )
 
 		disposeKey( SamplerSelect, &option, opt_max, &PumpSelect );
 	}
+
 }
 
 static	void	monitor_SHI ( void )
@@ -722,15 +725,43 @@ static	void	monitor_AIR ( void )
 	}
 }
 
+void	State_Finish( enum enumSamplerSelect SamplerSelect )
+{
+	cls();
+	SamplerTypeShow( 0x0102u );
+	WBMP( 0x0290,0x0502, STROCK);
+	WBMP( 0x0290,0x0514, STROCK);
+
+	switch( SamplerSelect )
+	{
+	case	Q_TSP: Lputs( 0x0102,  "TSP采样");	break;
+	case	Q_R24: Lputs( 0x0102, "日均采样");	break;
+	case	Q_SHI: Lputs( 0x0102, "时均采样");	break;
+	case	Q_AIR: Lputs( 0x0102, "大气采样");	break;
+	}
+	Lputs( 0x0A0C,	"采样完成!");
+	Lputs( 0x0F03,  "按确认键查询采样结果!");
+	do
+	{
+		Show_std_clock();
+	}while( !hitKey( 50 ) );
+
+	switch( getKey() )
+	{
+	case K_OK:	menu_SampleQuery();	break;
+	default:	break;
+	}
+}
 /********************************** 功能说明 ***********************************
 *  采样过程中显示各种状态
 *******************************************************************************/
 void	monitor ( void )
 {
-	while ( Sampler_isRunning( SamplerSelect ))
+	static BOOL SampleFinishFState[SamplerNum_Max];
+	while ( Sampler_isRunning( SamplerSelect ) )
 	{
 		cls();
-
+		SampleFinishFState[SamplerSelect] = TRUE;
 		switch ( SamplerSelect )
 		{
 		default:	
@@ -739,7 +770,14 @@ void	monitor ( void )
 		case Q_SHI:	monitor_SHI();	break;
 		case Q_AIR:	monitor_AIR();	break;
 		}
+	
 	}
+	
+	if( (	Q_Sampler[SamplerSelect].state	== state_FINISH ) && SampleFinishFState[SamplerSelect] )
+	{
+		SampleFinishFState[SamplerSelect] = FALSE;
+		State_Finish( SamplerSelect );
+	}		
 }
 
 /********************************** 功能说明 ***********************************
@@ -811,157 +849,157 @@ void	SamplerTypeSwitch( void )
 
 void	DisplaySetContrast( uint8_t SetContrast );
 
-/********************************** 功能说明 ***********************************
-*  设置显示屏参数（有可能在看不到显示的情况下进入）
-*******************************************************************************/
-void	ModifyLCD( void )
-{
-	uint16_t gray  = Configure.DisplayGray;
-	BOOL	graychanged = FALSE;
+// /********************************** 功能说明 ***********************************
+// *  设置显示屏参数（有可能在看不到显示的情况下进入）
+// *******************************************************************************/
+// void	ModifyLCD( void )
+// {
+// 	uint16_t gray  = Configure.DisplayGray;
+// 	BOOL	graychanged = FALSE;
 
-	BOOL	changed = false;
-	
-	cls();
-	Lputs( 0x0000u, "配置 液晶 灰度" );
-	Lputs( 0x1800u, "用方向键调整电压" );
-	for(;;)
-	{
-		DisplaySetGrayVolt( gray * 0.01f );
+// 	BOOL	changed = false;
+// 	
+// 	cls();
+// 	Lputs( 0x0000u, "配置 液晶 灰度" );
+// 	Lputs( 0x1800u, "用方向键调整电压" );
+// 	for(;;)
+// 	{
+// 		DisplaySetGrayVolt( gray * 0.01f );
 
-		Lputs( 0x0C00u, "灰度" );	ShowI16U( 0x0C0Cu, gray,  0x0502u, " V " );
+// 		Lputs( 0x0C00u, "灰度" );	ShowI16U( 0x0C0Cu, gray,  0x0502u, " V " );
 
 
-		switch( getKey())
-		{
-		case K_UP:	
-			if ( gray < 2000u )
-			{
-				++gray;
-			}
-			changed = true;
-			break;
-		case K_DOWN:
-			if ( gray >  200u )
-			{
-				--gray;
-			}
-			changed = true;
-			break;
+// 		switch( getKey())
+// 		{
+// 		case K_UP:	
+// 			if ( gray < 2000u )
+// 			{
+// 				++gray;
+// 			}
+// 			changed = true;
+// 			break;
+// 		case K_DOWN:
+// 			if ( gray >  200u )
+// 			{
+// 				--gray;
+// 			}
+// 			changed = true;
+// 			break;
 
-		case K_RIGHT:
-			if ( gray < ( 2000u - 100u ))
-			{ 
-				gray += 100u;
-			}
-			changed = true;
-			break;
-		case K_LEFT:	
-			if ( gray > ( 200 + 20u ))
-			{
-				gray -= 20u;
-			}
-			changed = true;
-			break;
+// 		case K_RIGHT:
+// 			if ( gray < ( 2000u - 100u ))
+// 			{ 
+// 				gray += 100u;
+// 			}
+// 			changed = true;
+// 			break;
+// 		case K_LEFT:	
+// 			if ( gray > ( 200 + 20u ))
+// 			{
+// 				gray -= 20u;
+// 			}
+// 			changed = true;
+// 			break;
 
-		case K_ESC:
-		case K_OK:
-			if ( changed )
-			{
-				Configure.DisplayGray  = gray;
-				ConfigureSave();
-			}
-			return;
-		case K_OK_UP:	
-			if ( gray < 2200u )
-			{
-				++gray;
-			}
-			if( ! releaseKey( K_OK_UP,100 ))
-			{
-				while( ! releaseKey( K_OK_UP, 1 ))
-				{
-					++gray;
-					DisplaySetGrayVolt( gray * 0.01f );
-				}
-			}
-			graychanged = true;		
-			break;
-		case K_OK_DOWN:
-			if ( gray >  200u )
-			{
-				--gray;
-			}
-			if( ! releaseKey( K_OK_DOWN, 100 ))
-			{
-				while( ! releaseKey( K_OK_DOWN, 1 ))
-				{
-					--gray;
-					DisplaySetGrayVolt( gray * 0.01f );
-				}			
-			}
-			graychanged = true;
-			break;
+// 		case K_ESC:
+// 		case K_OK:
+// 			if ( changed )
+// 			{
+// 				Configure.DisplayGray  = gray;
+// 				ConfigureSave();
+// 			}
+// 			return;
+// 		case K_OK_UP:	
+// 			if ( gray < 2200u )
+// 			{
+// 				++gray;
+// 			}
+// 			if( ! releaseKey( K_OK_UP,100 ))
+// 			{
+// 				while( ! releaseKey( K_OK_UP, 1 ))
+// 				{
+// 					++gray;
+// 					DisplaySetGrayVolt( gray * 0.01f );
+// 				}
+// 			}
+// 			graychanged = true;		
+// 			break;
+// 		case K_OK_DOWN:
+// 			if ( gray >  200u )
+// 			{
+// 				--gray;
+// 			}
+// 			if( ! releaseKey( K_OK_DOWN, 100 ))
+// 			{
+// 				while( ! releaseKey( K_OK_DOWN, 1 ))
+// 				{
+// 					--gray;
+// 					DisplaySetGrayVolt( gray * 0.01f );
+// 				}			
+// 			}
+// 			graychanged = true;
+// 			break;
 
-		case K_OK_RIGHT:
-			if ( gray < ( 2000u - 50u ))
-			{ 
-				gray += 100u;
-			}
-			graychanged = true;
-			break;
-		case K_OK_LEFT:	
-			if ( gray > ( 200 + 20u ))
-			{
-				gray -= 20u;
-			}
-			graychanged = true;
-			break;
-		default:
-			break;
-		}
-		if( graychanged == true )
-		{
-			DisplaySetGrayVolt( gray * 0.01f );
-			Configure.DisplayGray = gray;
-			ConfigureSave();
-			graychanged = FALSE;;
-		}		
+// 		case K_OK_RIGHT:
+// 			if ( gray < ( 2000u - 50u ))
+// 			{ 
+// 				gray += 100u;
+// 			}
+// 			graychanged = true;
+// 			break;
+// 		case K_OK_LEFT:	
+// 			if ( gray > ( 200 + 20u ))
+// 			{
+// 				gray -= 20u;
+// 			}
+// 			graychanged = true;
+// 			break;
+// 		default:
+// 			break;
+// 		}
+// 		if( graychanged == true )
+// 		{
+// 			DisplaySetGrayVolt( gray * 0.01f );
+// 			Configure.DisplayGray = gray;
+// 			ConfigureSave();
+// 			graychanged = FALSE;;
+// 		}		
 
-	}
-}
-uint8_t LCD_Gray( uint8_t item )
-{
-	if( ( item == 1 ) || ( item == 0xff ) )
-  {
-    if ( ! releaseKey( K_OK, 300 ))
-    {
-      item = enumSelectESC;	
-      beep();
-      delay( 100u );
-      beep();
-      cls();	
-      ModifyLCD();
-    }
-    else
-    if ( ! releaseKey( K_SHIFT, 300 ))
-    {
-      item = enumSelectESC;
-      beep();
-      delay( 100u );
-      beep();
-      cls();
-      Lputs( 0x0604u, "请输入出厂编号:" );
-      ConfigureLoad();
-      if( EditI32U( 0x0A05u, &Configure.ExNum, 0x0700u ))
-        if( vbYes == MsgBox("是否保存编号?",vbYesNo) )
-          ConfigureSave();
-        else
-          ConfigureLoad();				
-    }
-  }
-  
-	return item;
-}
+// 	}
+// }
+// uint8_t LCD_Gray( uint8_t item )
+// {
+// 	if( ( item == 1 ) || ( item == 0xff ) )
+//   {
+//     if ( ! releaseKey( K_OK, 300 ))
+//     {
+//       item = enumSelectESC;	
+//       beep();
+//       delay( 100u );
+//       beep();
+//       cls();	
+//       ModifyLCD();
+//     }
+//     else
+//     if ( ! releaseKey( K_SHIFT, 300 ))
+//     {
+//       item = enumSelectESC;
+//       beep();
+//       delay( 100u );
+//       beep();
+//       cls();
+//       Lputs( 0x0604u, "请输入出厂编号:" );
+//       ConfigureLoad();
+//       if( EditI32U( 0x0A05u, &Configure.ExNum, 0x0700u ))
+//         if( vbYes == MsgBox("是否保存编号?",vbYesNo) )
+//           ConfigureSave();
+//         else
+//           ConfigureLoad();				
+//     }
+//   }
+//   
+// 	return item;
+// }
 void	menu_show_env_state( void )
 {
 

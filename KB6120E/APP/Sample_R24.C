@@ -104,7 +104,7 @@ void  _task_Sample_R24( void )
 				File.sum_tr  [Q_PP1] = 0.0f;
 				File.sum_pr  [Q_PP1] = 0.0f;
 				File.vnd     [Q_PP1] = 0.0f;
-				File.sum_Ba           = 0.0f;
+				File.sum_Ba          = 0.0f;
 				File.sum_min [Q_PP2] = 0u;
 				File.max_pr  [Q_PP2] = 0.0f;
 				File.sum_tr  [Q_PP2] = 0.0f;
@@ -320,7 +320,6 @@ void  _task_Sample_R24( void )
 		//	采样已经完成，强制执行一次关泵动作（忽略记录的泵状态）
 			Pump_OutCmd( PumpSelect_1, FALSE );	Q_Pump[PumpSelect_1].xp_state = FALSE;
 			Pump_OutCmd( PumpSelect_2, FALSE );	Q_Pump[PumpSelect_2].xp_state = FALSE;
-				
 	
 		//	删除采样任务
 		SampleSet[SamplerSelect].start = 0u;

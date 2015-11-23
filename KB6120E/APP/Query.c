@@ -401,35 +401,37 @@ void	Query_File_TSP( void )
 	
 	do {
 		cls();	
+		WBMP( 0x0290,0x0502, STROCK);
+		WBMP( 0x0290,0x0514, STROCK);
 
 		if ( 0u == File.sample_begin )
 		{
-			Lputs( 0x0002u, "粉尘文件" );	ShowI16U( 0x0014u, FileNum, 0x0300u, "[空]" );
+			Lputs( 0x0102u, "粉尘文件" );	ShowI16U( 0x0114u, FileNum, 0x0300u, "[空]" );
 		}
 		else
 		{
-			Lputs( 0x0002u, "粉尘文件" );	ShowI16U( 0x0014u, FileNum, 0x0300u, NULL );
+			Lputs( 0x0102u, "粉尘文件" );	ShowI16U( 0x0114u, FileNum, 0x0300u, NULL );
 			switch ( option )
 			{
 			default:
 			case opt_tsp_1:
-				Lputs( 0x001Bu, "[1/2]" );
-				Lputs( 0x0400u, "开始时间:" );	  ShowDATE( 0x040Fu, File.sample_begin );
-				Lputs( 0x0800u, "采样次数:" );	ShowI16U( 0x0816u, File.run_loops,   0x0200u, NULL );
-				Lputs( 0x0C00u, "设置次数:" );	ShowI16U( 0x0C16u, File.set_loops,   0x0200u, NULL );
-				Lputs( 0x1000u, "温   度:" );	ShowFP32( 0x1011u, File.sum_tr / File.sum_min, 0x0602u, "℃" );
-				Lputs( 0x1400u, "压   力:" );	ShowFP32( 0x1411u, File.sum_pr / File.sum_min, 0x0602u, "kPa" );
-				Lputs( 0x1800u, "大气压力:" );	  ShowFP32( 0x1811u, File.sum_Ba / File.sum_min, 0x0602u, "kPa" );
+				Lputs( 0x011Bu, "[1/2]" );
+				Lputs( 0x0602u, "开始时间:" );	  ShowDATE( 0x0610u, File.sample_begin );
+				Lputs( 0x0A02u, "采样次数:" );		ShowI16U( 0x0A16u, File.run_loops,  						0x0200u, NULL );
+				Lputs( 0x0E02u, "设置次数:" );		ShowI16U( 0x0E16u, File.set_loops,   						0x0200u, NULL );
+				Lputs( 0x1202u, "温   度:" );		ShowFP32( 0x1215u, File.sum_tr / File.sum_min, 	0x0402u, "℃" );
+				Lputs( 0x1602u, "压   力:" );		ShowFP32( 0x1615u, File.sum_pr / File.sum_min, 	0x0402u, "kPa" );
+				Lputs( 0x1A02u, "大气压力:" );	  ShowFP32( 0x1A15u, File.sum_Ba / File.sum_min,	0x0402u, "kPa" );
 			//	Lputs( 0x0800u, "环境温度:" );	ShowFP32( 0x0811u, File.sum_tr / File.sum_min, 0x0602u, "℃" );
 				break;
 			case opt_tsp_2:
-				Lputs( 0x001Bu, "[2/2]" );
-				Lputs( 0x0400u, "工   况:" );		ShowFP32( 0x0411u, File.vd     / File.sum_min, 0x0701u, "L/m" );
-				Lputs( 0x0800u, "标   况:" );		ShowFP32( 0x0811u, File.vnd    / File.sum_min, 0x0701u, "L/m" );
-				Lputs( 0x0C00u, "设   置:" );		ShowI16U( 0x0C11u, File.set_flow,              0x0701u, "L/m" );
-				Lputs( 0x1000u, "工况体积:" );	ShowFP32( 0x1013u, File.vd,                    0x0600u, "L" );
-				Lputs( 0x1400u, "标况体积:" );	ShowFP32( 0x1413u, File.vnd,                   0x0600u, "L" );
-				Lputs( 0x1800u, "采样时间:" );	ShowTIME( 0x1816u, File.sum_min  );
+				Lputs( 0x011Bu, "[2/2]" );
+				Lputs( 0x0602u, "工   况:" );		ShowFP32( 0x0617u, File.vd     / File.sum_min, 0x0401u, "L/m" );
+				Lputs( 0x0A02u, "标   况:" );		ShowFP32( 0x0A17u, File.vnd    / File.sum_min, 0x0401u, "L/m" );
+				Lputs( 0x0E02u, "设   置:" );		ShowI16U( 0x0E17u, File.set_flow,              0x0401u, "L/m" );
+				Lputs( 0x1202u, "工况体积:" );		ShowFP32( 0x1213u, File.vd,                    0x0600u, "L" );
+				Lputs( 0x1602u, "标况体积:" );		ShowFP32( 0x1613u, File.vnd,                   0x0600u, "L" );
+				Lputs( 0x1A02u, "采样时间:" );		ShowTIME( 0x1A16u, File.sum_min  );
 			//	Lputs( 0x1800u, "设置时间:" );	ShowTIME( 0x1816u, File.set_time );
 				break;
 			}
@@ -605,45 +607,47 @@ void	Query_File_R24( void )
 	
 	do {
 		cls();
+		WBMP( 0x0290,0x0502, STROCK);
+		WBMP( 0x0290,0x0514, STROCK);
 
 		if ( 0u == File.sample_begin )
 		{
-			Lputs( 0x0002u, "日均文件" );	ShowI16U( 0x0014u, FileNum, 0x0300u, "[空]" );
+			Lputs( 0x0102u, "日均文件" );	ShowI16U( 0x0114u, FileNum, 0x0300u, "[空]" );
 		} 
 		else
 		{
-			Lputs( 0x0002u, "日均文件" );	ShowI16U( 0x0014u, FileNum, 0x0300u, NULL );
+			Lputs( 0x0102u, "日均文件" );	ShowI16U( 0x0114u, FileNum, 0x0300u, NULL );
 			switch ( option )
 			{
 			default:
 			case opt_A2X_1:
-				Lputs( 0x001Bu, "[1/3]" );
-				Lputs( 0x0600u, "开始时间:" );	ShowDATE( 0x060Fu, File.sample_begin );
-				Lputs( 0x0C00u, "大气压力:" );	ShowFP32( 0x0C11u, File.sum_Ba / File.sum_min[Q_PP1], 0x0602u, "kPa" );
-				Lputs( 0x1200u, "采样次数:" );	ShowI16U( 0x1216u, File.run_loops,   0x0200u, NULL );
-				Lputs( 0x1800u, "设置次数:" );	ShowI16U( 0x1816u, File.set_loops,   0x0200u, NULL );
+				Lputs( 0x011Bu, "[1/3]" );
+				Lputs( 0x0602u, "开始时间:" );	ShowDATE( 0x0610u, File.sample_begin );
+				Lputs( 0x0C02u, "大气压力:" );	ShowFP32( 0x0C11u, File.sum_Ba / File.sum_min[Q_PP1], 0x0602u, "kPa" );
+				Lputs( 0x1202u, "采样次数:" );	ShowI16U( 0x1216u, File.run_loops,   0x0200u, NULL );
+				Lputs( 0x1802u, "设置次数:" );	ShowI16U( 0x1816u, File.set_loops,   0x0200u, NULL );
 				
 				
 			
 				break;		
 			case opt_A2X_A1:
-				Lputs( 0x0010u, "A" );Lputs( 0x001Bu, "[2/3]" );
-				Lputs( 0x0400u, "温 度:" );		ShowFP32( 0x0411u, File.sum_tr[Q_PP1] / File.sum_min[Q_PP1], 0x0602u, "℃" );
-				Lputs( 0x0800u, "压 力:" );		ShowFP32( 0x0811u, File.sum_pr[Q_PP1] / File.sum_min[Q_PP1], 0x0602u, "kPa" );
-				Lputs( 0x0C00u, "标况流量:" );	ShowFP32( 0x0C11u, File.vnd[Q_PP1] / File.sum_min[Q_PP1], 0x0703u, "L/m" );	
-				Lputs( 0x1000u, "标况体积:" );	ShowFP32( 0x1011u, File.vnd[Q_PP1],  0x0602u, "L " );
-				Lputs( 0x1400u, "采样时间:" );	ShowTIME( 0x1415u, File.sum_min[Q_PP1]  );
-				Lputs( 0x1800u, "设置时间:" );	ShowTIME( 0x1815u, File.set_time[Q_PP1] );
+				Lputs( 0x0110u, "A" );Lputs( 0x011Bu, "[2/3]" );
+				Lputs( 0x0602u, "温 度:" );		ShowFP32( 0x0615u, File.sum_tr[Q_PP1] / File.sum_min[Q_PP1], 	0x0402u, "℃" );
+				Lputs( 0x0A02u, "压 力:" );		ShowFP32( 0x0A15u, File.sum_pr[Q_PP1] / File.sum_min[Q_PP1], 	0x0402u, "kPa" );
+				Lputs( 0x0E02u, "标况流量:" );	ShowFP32( 0x0E17u, File.vnd[Q_PP1] / File.sum_min[Q_PP1], 		0x0403u, "L/m" );	
+				Lputs( 0x1202u, "标况体积:" );	ShowFP32( 0x1213u, File.vnd[Q_PP1],  													0x0602u, "L " );
+				Lputs( 0x1602u, "采样时间:" );	ShowTIME( 0x1615u, File.sum_min[Q_PP1]  );
+				Lputs( 0x1A02u, "设置时间:" );	ShowTIME( 0x1A15u, File.set_time[Q_PP1] );
 				break;
 			
 			case opt_A2X_B1:
-				Lputs( 0x0010u, "B" );Lputs( 0x001Bu, "[3/3]" );
-				Lputs( 0x0400u, "温 度:" );		ShowFP32( 0x0411u, File.sum_tr[Q_PP2] / File.sum_min[Q_PP2], 0x0602u, "℃" );
-				Lputs( 0x0800u, "压 力:" );		ShowFP32( 0x0811u, File.sum_pr[Q_PP2] / File.sum_min[Q_PP2], 0x0602u, "kPa" );
-				Lputs( 0x0C00u, "标况流量:" );	ShowFP32( 0x0C11u, File.vnd[Q_PP2] / File.sum_min[Q_PP2], 0x0703u, "L/m" );
-				Lputs( 0x1000u, "标况体积:" );	ShowFP32( 0x1011u, File.vnd[Q_PP2],  0x0602u, "L " );
-				Lputs( 0x1400u, "采样时间:" );	ShowTIME( 0x1415u, File.sum_min[Q_PP2]  );
-				Lputs( 0x1800u, "设置时间:" );	ShowTIME( 0x1815u, File.set_time[Q_PP2] );
+				Lputs( 0x0110u, "B" );Lputs( 0x011Bu, "[3/3]" );
+				Lputs( 0x0602u, "温 度:" );		ShowFP32( 0x0615u, File.sum_tr[Q_PP2] / File.sum_min[Q_PP2], 	0x0402u, "℃" );
+				Lputs( 0x0A02u, "压 力:" );		ShowFP32( 0x0A15u, File.sum_pr[Q_PP2] / File.sum_min[Q_PP2], 	0x0402u, "kPa" );
+				Lputs( 0x0E02u, "标况流量:" );	ShowFP32( 0x0E17u, File.vnd[Q_PP2] / File.sum_min[Q_PP2], 		0x0403u, "L/m" );
+				Lputs( 0x1202u, "标况体积:" );	ShowFP32( 0x1213u, File.vnd[Q_PP2],  													0x0602u, "L " );
+				Lputs( 0x1602u, "采样时间:" );	ShowTIME( 0x1615u, File.sum_min[Q_PP2]  );
+				Lputs( 0x1A02u, "设置时间:" );	ShowTIME( 0x1A15u, File.set_time[Q_PP2] );
 				break;
 			}
 		}
@@ -816,48 +820,49 @@ void	Query_File_SHI( void )
 	File_Load_SHI ( FileNum, &File );
 
 	do {
-		
 		cls();
+		WBMP( 0x0290,0x0502, STROCK);
+		WBMP( 0x0290,0x0514, STROCK);
 		if ( 0u == File.sample_begin )
 		{
-			Lputs( 0x0002u, "时均文件" );	ShowI16U( 0x0014u, FileNum, 0x0300u, "[空]" );
+			Lputs( 0x0102u, "时均文件" );	ShowI16U( 0x0114u, FileNum, 0x0300u, "[空]" );
 		} 
 		else
 		{
-			Lputs( 0x0002u, "时均文件" );	ShowI16U( 0x0014u, FileNum, 0x0300u, NULL );
+			Lputs( 0x0102u, "时均文件" );	ShowI16U( 0x0114u, FileNum, 0x0300u, NULL );
 			switch ( option )
 			{
 			default:
 			case opt_A2X_1:
-				Lputs( 0x001Bu, "[1/3]" );
-				Lputs( 0x0600u, "开始时间:" );	ShowDATE( 0x060Fu, File.sample_begin );
-				Lputs( 0x0C00u, "大气压力:" );	ShowFP32( 0x0C12u, File.sum_Ba         / File.sum_min[Q_PP1], 0x0602u, "kPa" );
-				Lputs( 0x1200u, "采样次数:" );	ShowI16U( 0x1216u, File.run_loops,   0x0200u, NULL );
-				Lputs( 0x1800u, "设置次数:" );	ShowI16U( 0x1816u, File.set_loops,   0x0200u, NULL );
+				Lputs( 0x011Bu, "[1/3]" );
+				Lputs( 0x0602u, "开始时间:" );	ShowDATE( 0x0610u, File.sample_begin );
+				Lputs( 0x0C02u, "大气压力:" );	ShowFP32( 0x0C12u, File.sum_Ba         / File.sum_min[Q_PP1], 0x0602u, "kPa" );
+				Lputs( 0x1202u, "采样次数:" );	ShowI16U( 0x1216u, File.run_loops,   0x0200u, NULL );
+				Lputs( 0x1802u, "设置次数:" );	ShowI16U( 0x1816u, File.set_loops,   0x0200u, NULL );
 				
 			
 				break;
 			
 			case opt_A2X_A1:
-				Lputs( 0x0010u, "C" );Lputs( 0x001Bu, "[2/3]" );
-				Lputs( 0x0600u, "温   度:" );	ShowFP32( 0x0611u, File.sum_tr[Q_PP1] / File.sum_min[Q_PP1], 0x0602u, "℃" );
-				Lputs( 0x0900u, "压   力:" );	ShowFP32( 0x0911u, File.sum_pr[Q_PP1] / File.sum_min[Q_PP1], 0x0602u, "kPa" );
-				Lputs( 0x0C00u, "标况流量:" );	ShowFP32( 0x0C11u, File.vnd [Q_PP1]   / File.sum_min[Q_PP1], 0x0703u, "L/m" );
-				Lputs( 0x0F00u, "设置流量:" );	ShowI16U( 0x0F11u, File.set_flow[Q_PP1] * 100,                     0x0703u, "L/m" );
-				Lputs( 0x1200u, "体   积:" );	ShowFP32( 0x120Du, File.vnd[Q_PP1],                          0x0802u, "L" );
-				Lputs( 0x1500u, "采样时间:" );	ShowTIME( 0x1515u, File.sum_min[Q_PP1]  );
-				Lputs( 0x1800u, "设置时间:" );	ShowTIME( 0x1815u, File.set_time[Q_PP1] );
+				Lputs( 0x0110u, "C" );Lputs( 0x011Bu, "[2/3]" );
+				Lputs( 0x0602u, "温   度:" );	ShowFP32( 0x0615u, File.sum_tr[Q_PP1] / File.sum_min[Q_PP1], 0x0402u, "℃" );
+				Lputs( 0x0902u, "压   力:" );	ShowFP32( 0x0915u, File.sum_pr[Q_PP1] / File.sum_min[Q_PP1], 0x0402u, "kPa" );
+				Lputs( 0x0C02u, "标况流量:" );	ShowFP32( 0x0C17u, File.vnd [Q_PP1]   / File.sum_min[Q_PP1], 0x0403u, "L/m" );
+				Lputs( 0x0F02u, "设置流量:" );	ShowI16U( 0x0F17u, File.set_flow[Q_PP1] * 100,               0x0403u, "L/m" );
+				Lputs( 0x1202u, "体   积:" );	ShowFP32( 0x1213u, File.vnd[Q_PP1],                          0x0602u, "L" );
+				Lputs( 0x1502u, "采样时间:" );	ShowTIME( 0x1515u, File.sum_min[Q_PP1]  );
+				Lputs( 0x1802u, "设置时间:" );	ShowTIME( 0x1815u, File.set_time[Q_PP1] );
 				break;
 
 			case opt_A2X_B1:
-				Lputs( 0x0010u, "D" );Lputs( 0x001Bu, "[3/3]" );
-				Lputs( 0x0600u, "温   度:" );	ShowFP32( 0x0611u, File.sum_tr[Q_PP2] / File.sum_min[Q_PP2], 0x0602u, "℃" );
-				Lputs( 0x0900u, "压   力:" );	ShowFP32( 0x0911u, File.sum_pr[Q_PP2] / File.sum_min[Q_PP2], 0x0602u, "kPa" );	
-				Lputs( 0x0C00u, "标况流量:" );	ShowFP32( 0x0C11u, File.vnd [Q_PP2]   / File.sum_min[Q_PP2], 0x0703u, "L/m" );
-				Lputs( 0x0F00u, "设置流量:" );	ShowI16U( 0x0F11u, File.set_flow[Q_PP2] * 100,                       0x0703u, "L/m" );
-				Lputs( 0x1200u, "体   积:" );	ShowFP32( 0x120Du, File.vnd[Q_PP2],                           0x0802u, "L" );
-				Lputs( 0x1500u, "采样时间:" );	ShowTIME( 0x1515u, File.sum_min[Q_PP2]  );
-				Lputs( 0x1800u, "设置时间:" );	ShowTIME( 0x1815u, File.set_time[Q_PP2] );
+				Lputs( 0x0110u, "D" );Lputs( 0x011Bu, "[3/3]" );
+				Lputs( 0x0602u, "温   度:" );	ShowFP32( 0x0615u, File.sum_tr[Q_PP2] / File.sum_min[Q_PP2], 0x0402u, "℃" );
+				Lputs( 0x0902u, "压   力:" );	ShowFP32( 0x0915u, File.sum_pr[Q_PP2] / File.sum_min[Q_PP2], 0x0402u, "kPa" );	
+				Lputs( 0x0C02u, "标况流量:" );	ShowFP32( 0x0C17u, File.vnd [Q_PP2]   / File.sum_min[Q_PP2], 0x0403u, "L/m" );
+				Lputs( 0x0F02u, "设置流量:" );	ShowI16U( 0x0F17u, File.set_flow[Q_PP2] * 100,               0x0403u, "L/m" );
+				Lputs( 0x1202u, "体   积:" );	ShowFP32( 0x1213u, File.vnd[Q_PP2],                          0x0602u, "L" );
+				Lputs( 0x1502u, "采样时间:" );	ShowTIME( 0x1515u, File.sum_min[Q_PP2]  );
+				Lputs( 0x1802u, "设置时间:" );	ShowTIME( 0x1815u, File.set_time[Q_PP2] );
 				break;
 			}
 		}
@@ -1028,15 +1033,17 @@ void	Query_File_AIR( void )
 	File_Load_AIR ( FileNum, &File );
 
 	do {
-		
 		cls();
+		WBMP( 0x0290,0x0502, STROCK);
+		WBMP( 0x0290,0x0514, STROCK);
+		
 		if ( 0u == File.sample_begin )
 		{
-			Lputs( 0x0002u, "大气文件" );	ShowI16U( 0x0014u, FileNum, 0x0C00u, "[空]" );
+			Lputs( 0x0102u, "大气文件" );	ShowI16U( 0x0114u, FileNum, 0x0C00u, "[空]" );
 		} 
 		else
 		{
-			Lputs( 0x0002u, "大气文件" );	ShowI16U( 0x0014u, FileNum, 0x0C00u, NULL );
+			Lputs( 0x0102u, "大气文件" );	ShowI16U( 0x0114u, FileNum, 0x0C00u, NULL );
 			switch ( option )
 			{
 			case opt_air_1:
@@ -1343,12 +1350,14 @@ void	PowerLog_Query( void )
 	CHAR sbuffer[20] = {0};
 	do {
 		cls();
-		Lputs( 0x0000u, "开关机记录" );	
+		Lputs( 0x0102u, "开关机记录" );
+		WBMP( 0x0290,0x0502, STROCK);
+		WBMP( 0x0290,0x0514, STROCK);		
 		sprintf( sbuffer, "编号:   [%1u/%1u]",PLindex + 1 ,PowerLogIndex + 1 ); 
-		Lputs( 0x0800u, sbuffer );
+		Lputs( 0x0802u, sbuffer );
 		PowerLogLoad( PLindex, &Plog );	
-		Lputs( 0x1000u, "开机:" );	ShowDATE( 0x100Cu, Plog.boot );
-		Lputs( 0x1800u, "关机:" );	if ( PLindex ){  ShowDATE( 0x180Cu, Plog.shut ); }
+		Lputs( 0x1002u, "开机:" );	ShowDATE( 0x100Cu, Plog.boot );
+		Lputs( 0x1802u, "关机:" );	if ( PLindex ){  ShowDATE( 0x180Cu, Plog.shut ); }
 		if( PowerLogIndex < PowerLogIndex_Max )
 		{
 			switch ( getKey())

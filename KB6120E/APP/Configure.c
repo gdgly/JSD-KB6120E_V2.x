@@ -1050,14 +1050,14 @@ static	void	menu_ChangePassword( void )
 		cls();
 		passwordi = passwordii = 0u;
 		Lputs( 0x0808u, "请输入新密码:" );
-		if ( ! EditI32U( 0x0C09u, &passwordi, 0x0600u ))
+		if ( ! EditI32U( 0x0E0Cu, &passwordi, 0x0600u ))
 		{
 			 Done = TRUE;
 		}
 		if ( Done == FALSE )
 		{
 			Lputs( 0x0808u, "请确认新密码:" );
-			if ( ! EditI32U( 0x0C09u, &passwordii, 0x0600u ))
+			if ( ! EditI32U( 0x0E0Cu, &passwordii, 0x0600u ))
 			{
 				Done = TRUE;
 			}

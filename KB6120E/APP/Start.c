@@ -65,9 +65,8 @@ void	menu_Main( void )
 		WBMP( 0x1818, menu[3].yx-0x04, QUERY );
 		WBMP( 0x1818, menu[4].yx-0x04, MAINTAIN );
 		WBMP( 0xB001, 0x050D, STROCK1 );
-		item = Menu_Select2( menu, item, FALSE, Show_std_state );
-		
-		item = LCD_Gray( item );
+		item = Menu_SelectOnly( menu, item, FALSE, Show_std_state );
+
 		switch( item )
 		{
 		//	在主菜单下按取消键，显示大气压、恒温箱温度等环境参数
@@ -77,8 +76,7 @@ void	menu_Main( void )
 		case 4:	menu_Maintenance();	break;
 		case enumSelectESC:	item = 1u;	break;
 		case enumSelectXCH:	SamplerTypeSwitch();	break;
-		}
-		
+		}		
 	}
 }
 
@@ -176,6 +174,7 @@ __task	int32_t	main( void )
   beep();
 	RTOS_Init();		//	尽早执行
   
+	EditionSelsct();
 	ConfigureLoad();	//	先确定仪器型号
 	CalibrateLoad();	//	读传感器前执行,	远程存储器中的参数，应等通讯初始化后再读。
 	SampleSetLoad();	//	恢复采样前执行

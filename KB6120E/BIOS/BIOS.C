@@ -717,11 +717,11 @@ uint8_t	bus_i2c_shin( enum I2C_AcknowlegeSet AcknowlegeSet )
 // *******************************************************************************/
 // #ifdef	SimulationSPI
 
-// #define	Pin_SPI1xSCK		PinBB( GPIOB->ODR,  3U )
-// #define	Pin_SPI1xMISO		PinBB( GPIOB->IDR,  4U )
-// #define	Pin_SPI1xMOSI		PinBB( GPIOB->ODR,  5U )
+// #define	Pin_SPIxSCK			PinBB( GPIOB->ODR,  3U )
+// #define	Pin_SPIxMISO		PinBB( GPIOB->IDR,  4U )
+// #define	Pin_SPIxMOSI		PinBB( GPIOB->ODR,  5U )
 
-// uint8_t bus_SPI1xShift( uint8_t OutByte )
+// uint8_t bus_SPIxShift( uint8_t OutByte )
 // {
 // 	uint8_t i;
 // 	
@@ -760,7 +760,7 @@ uint8_t	bus_i2c_shin( enum I2C_AcknowlegeSet AcknowlegeSet )
 // }
 
 
-// void	bus_SPI1xPortInit( void )
+// void	bus_SPIxPortInit( void )
 // {
 // 	SET_BIT( RCC->APB2ENR, RCC_APB2ENR_AFIOEN );
 //  	MODIFY_REG( AFIO->MAPR, AFIO_MAPR_SWJ_CFG, AFIO_MAPR_SWJ_CFG_JTAGDISABLE );
@@ -772,7 +772,7 @@ uint8_t	bus_i2c_shin( enum I2C_AcknowlegeSet AcknowlegeSet )
 
 // #else
 
-// uint8_t bus_SPI1xShift( uint8_t IOByte )
+// uint8_t bus_SPIxShift( uint8_t IOByte )
 // {
 // 	SPI_TypeDef * SPIx = SPI1;
 
@@ -784,7 +784,7 @@ uint8_t	bus_i2c_shin( enum I2C_AcknowlegeSet AcknowlegeSet )
 // 	return	IOByte;
 // }
 
-// void	bus_SPI1xPortInit( void )
+// void	bus_SPIxPortInit( void )
 // {
 // 	SPI_TypeDef * SPIx = SPI1;
 

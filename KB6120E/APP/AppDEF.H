@@ -253,7 +253,7 @@ extern	void	SamplerTypeSwitch( void );
 extern	void	menu_QueryLog( void );
 extern	void	menu_FactoryDebug( void );
 extern	void	menu_Calibrate( void );
-extern	uint8_t	LCD_Gray( uint8_t	item );
+// extern	uint8_t	LCD_Gray( uint8_t	item );
 //	RTOS.C
 extern	void	bus_modbus_mutex_apply( void );
 extern	void	bus_modbus_mutex_release( void );

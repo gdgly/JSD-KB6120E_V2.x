@@ -13,8 +13,7 @@
 // #define	T_KB6120B
 // #define	T_KB2400D
 // #define	T_KB2400
-<<<<<<< HEAD
-=======
+
 extern	uint32_t	eDataValidMask; 
 void	EditionSelsct( void )
 {
@@ -22,18 +21,18 @@ void	EditionSelsct( void )
 // #define	T_KB6120B
 // #define	T_KB2400D
 // #define	T_KB2400
-	#ifdef	T_KB6120C
-		eDataValidMask = 0x5A3A;
-	#elif	defined	T_KB6120B
-		eDataValidMask = 0x5A3B;
-	#elif	defined	T_KB2400D
-		eDataValidMask = 0x5A3C;
-	#elif	defined	T_KB2400
-		eDataValidMask = 0x5A3D;
-	#endif
+
+#ifdef	T_KB6120C
+	eDataValidMask = 0x5A3A;
+#elif	defined	T_KB6120B
+	eDataValidMask = 0x5A3B;
+#elif	defined	T_KB2400D
+	eDataValidMask = 0x5A3C;
+#elif	defined	T_KB2400
+	eDataValidMask = 0x5A3D;
+#endif
 
 }
->>>>>>> 1112æ—¥å‘ç°é—®é¢˜åˆ†æ”¯ä¿®æ”¹
 /********************************** ¹¦ÄÜËµÃ÷ ***********************************
 *  ¸ù¾İÒÇÆ÷ĞÍºÅÏÔÊ¾°æ±¾ĞÅÏ¢
 *  ¸ù¾İÏúÊÛÈËÔ±ÒªÇó£¬¿ÉÄÜ»á¸Ä³ÉÆäËû³§¼ÒÃû³Æ£¬»òÕß¸É´à²»ÏÔÊ¾¡£
@@ -52,21 +51,21 @@ CHAR  const * const ExNameIdent2[] =
 };
 CHAR  const * const EditionNum[] =
 {
-   "KB6120E V2.05",	//	ÄÚ²¿°æ±¾
+   "KB6120E V2.07",	//	ÄÚ²¿°æ±¾
 	__DATE__" V2.00",	//	ÏÔÊ¾°æ±¾
 };
 static	void	ShowEdition_NoName( void )
 {
 	cls();
-  Lputs( 0x0809u, szNameIdent[Configure.InstrumentName] );
+  Lputs( 0x0808u, szNameIdent[Configure.InstrumentName] );
 	Lputs( 0x0F03u, EditionNum[1] );
 	Lputs( 0x1509u, "±àºÅ:" );	ShowFP32( 0x1512u, Configure.ExNum, 0x0700u, NULL );
 }
 static	void	ShowEdition_HasName( void )
 {
   cls();
- 	Lputs( 0x0109u, szNameIdent [Configure.InstrumentName] );
-	Lputs( 0x0607u, ExNameIdent1[Configure.ExName] );
+ 	Lputs( 0x0108u, szNameIdent [Configure.InstrumentName] );
+	Lputs( 0x0606u, ExNameIdent1[Configure.ExName] );
 	Lputs( 0x0C01u, ExNameIdent2[Configure.ExName] );
 	Lputs( 0x1203u, EditionNum[1] );
 	Lputs( 0x1809u, "±àºÅ:" );ShowFP32( 0x1812u, Configure.ExNum, 0x0700u, NULL );
@@ -133,24 +132,10 @@ CHAR  const * const szNameIdent[] =
 	"ºãÎÂºãÁ÷²ÉÑùÆ÷  ",
 	"ÖÇÄÜºãÁ÷²ÉÑùÆ÷  ",
 };
-
-static	void	ConfigureLoad_KB6120C( void )
+void	ConfigureLoadDefault_KB6120E( void )
 {
-	#ifdef	T_KB6120C
-		Configure.InstrumentType = type_KB6120C;//6120C
-		
-		Configure.PumpType[PP_TSP  ] = enumOrifice_1;	Configure.SetFlow[PP_TSP  ]  = 1000u;	//	·Û³¾  ²ÉÑùÁ÷Á¿ 100.0 L/m
-		Configure.PumpType[PP_R24_A] = enumOrifice_1;	Configure.SetFlow[PP_R24_A]  =  200u;	//	ÈÕ¾ù1 ²ÉÑùÁ÷Á¿ 0.200 L/m
-		Configure.PumpType[PP_R24_B] = enumOrifice_1;	Configure.SetFlow[PP_R24_B]  =  200u;	//	ÈÕ¾ù2 ²ÉÑùÁ÷Á¿ 0.200 L/m
-		Configure.PumpType[PP_SHI_C] = enumOrifice_1; Configure.SetFlow[PP_SHI_C]  =    5u;	//	Ê±¾ù1 ²ÉÑùÁ÷Á¿ 0.5 L/m
-		Configure.PumpType[PP_SHI_D] = enumOrifice_1; Configure.SetFlow[PP_SHI_D]  =    5u;	//	Ê±¾ù2 ²ÉÑùÁ÷Á¿ 0.5 L/m
-		Configure.PumpType[PP_AIR  ] = enumPumpNone;	Configure.SetFlow[PP_AIR  ]  =  500u;	//	´óÆø Á÷Á¿ 0.5 L/m
-		Configure.AIRSetFlow[Q_PP1] = 5;
-		Configure.AIRSetFlow[Q_PP2] = 5;
-		Configure.HeaterType = enumHCBoxOnly;	//	Ö»ÓĞºãÎÂÏä
 		Configure.Heater_SetTemp = 300u;		//	¼ÓÈÈÆ÷ºãÎÂÎÂ¶È 30.0 ¡æ
-		Configure.Heater_SW = FALSE;         //¼ÓÈÈÆ÷¿ª¹Ø	
-		
+		Configure.Heater_SW = FALSE;         //¼ÓÈÈÆ÷¿ª¹Ø			
 		Configure.HCBox_SetMode = MD_Shut;		//	ºãÎÂÏä¿ØÖÆÄ£Ê½ [¹Ø±Õ]
 		Configure.HCBox_SetTemp = 240u;			//	ºãÎÂÏäºãÎÂÎÂ¶È 24.0 ¡æ
 				 
@@ -172,16 +157,32 @@ static	void	ConfigureLoad_KB6120C( void )
 		
 		Configure.shouldCalcPbv = 0;		//	±¥ºÍË®ÆûÑ¹ÊÇ·ñ²ÎÓë¼ÆËã¡£
 		
-		Configure.Battery_SW = FALSE;    //µç³ØÊÇ·ñ´æÔÚ
-		Configure.ExName = Name_JSD;
 		Configure.Password = 633817;
+		Configure.ExName = Name_JSD;
 		
-	#endif
 }
-	
-static	void	ConfigureLoad_KB6120B( void )
+void	ConfigureLoad_KB6120C( void )
 {
-	#ifdef	T_KB6120B
+		Configure.InstrumentType = type_KB6120C;//6120C
+		
+		Configure.PumpType[PP_TSP  ] = enumOrifice_1;	Configure.SetFlow[PP_TSP  ]  = 1000u;	//	·Û³¾  ²ÉÑùÁ÷Á¿ 100.0 L/m
+		Configure.PumpType[PP_R24_A] = enumOrifice_1;	Configure.SetFlow[PP_R24_A]  =  200u;	//	ÈÕ¾ù1 ²ÉÑùÁ÷Á¿ 0.200 L/m
+		Configure.PumpType[PP_R24_B] = enumOrifice_1;	Configure.SetFlow[PP_R24_B]  =  200u;	//	ÈÕ¾ù2 ²ÉÑùÁ÷Á¿ 0.200 L/m
+		Configure.PumpType[PP_SHI_C] = enumOrifice_1; Configure.SetFlow[PP_SHI_C]  =    5u;	//	Ê±¾ù1 ²ÉÑùÁ÷Á¿ 0.5 L/m
+		Configure.PumpType[PP_SHI_D] = enumOrifice_1; Configure.SetFlow[PP_SHI_D]  =    5u;	//	Ê±¾ù2 ²ÉÑùÁ÷Á¿ 0.5 L/m
+		Configure.PumpType[PP_AIR  ] = enumPumpNone;	Configure.SetFlow[PP_AIR  ]  =  500u;	//	´óÆø Á÷Á¿ 0.5 L/m
+		Configure.AIRSetFlow[Q_PP1] = 5;
+		Configure.AIRSetFlow[Q_PP2] = 5;
+		
+		Configure.HeaterType = enumHCBoxOnly;	//	Ö»ÓĞºãÎÂÏä
+		
+		Configure.Battery_SW = FALSE;    //µç³ØÊÇ·ñ´æÔÚ
+
+}
+
+
+void	ConfigureLoad_KB6120B( void )
+{
 		Configure.InstrumentType = type_KB6120B; // 6120B
 
 		Configure.PumpType[PP_TSP  ] = enumOrifice_1;	Configure.SetFlow[PP_TSP  ]  = 1000u;	//	·Û³¾  ²ÉÑùÁ÷Á¿ 100.0 L/m
@@ -192,38 +193,14 @@ static	void	ConfigureLoad_KB6120B( void )
 		Configure.PumpType[PP_AIR  ] = enumPumpNone;	Configure.SetFlow[PP_AIR  ]  =  500u;	//	´óÆø Á÷Á¿ 0.5 L/m
 		Configure.AIRSetFlow[Q_PP1] = 5;
 		Configure.AIRSetFlow[Q_PP2] = 5;
+		
 		Configure.HeaterType = enumHCBoxOnly;	//	Ö»ÓĞºãÎÂÏä
-		Configure.Heater_SetTemp = 300u;		//	¼ÓÈÈÆ÷ºãÎÂÎÂ¶È 30.0 ¡æ
-		Configure.Heater_SW = FALSE;          // ¼ÓÈÈÆ÷²»¹¤×÷
 		
-		Configure.HCBox_SetMode = MD_Shut;		//	ºãÎÂÏä¿ØÖÆÄ£Ê½ [¹Ø±Õ]
-		Configure.HCBox_SetTemp = 240u;			//	ºãÎÂÏäºãÎÂÎÂ¶È 24.0 ¡æ
-
-		Configure.SetTstd = enum_293K;			//	±ê¿öÁ÷Á¿µÄ¶¨ÒåÎÂ¶È 
-		
-		Configure.Mothed_Delay = enumByDelay;	//	²ÉÑù¿ªÊ¼Ê±¼ä·½Ê½
-		Configure.Mothed_Sample = enumBySet;	//	²ÉÑùÊ±¼ä¿ØÖÆ·½Ê½
-
-		Configure.Mothed_Ba = enumMeasureBa;	//	´óÆøÑ¹Á¦»ñÈ¡·½Ê½
-		Configure.set_Ba    = 10133u;			//	±£´æÓÃ»§ÊäÈëÆøÑ¹
-
-		Configure.DisplayGray  = 2000u;	//	ÏÔÊ¾»Ò¶ÈÉèÖÃ
-		Configure.DisplayLight = 50u;	//	ÏÔÊ¾ÁÁ¶ÈÉèÖÃ
-		Configure.TimeoutLight = 2u;	//	±³¹âÑÓÊ±Ê±¼ä
-			
-		Configure.shouldCalcPbv = 0;		//	±¥ºÍË®ÆûÑ¹ÊÇ·ñ²ÎÓë¼ÆËã¡£
-
 		Configure.Battery_SW = FALSE;    //µç³ØÊÇ·ñ´æÔÚ
-	// 	Configure.ExNum = 1501000;			 //³ö³§±àºÅ
-		Configure.ExName = Name_JSD;
-		Configure.Password = 633817;
-
-	#endif
 }
 
-static	void	ConfigureLoad_KB2400D( void )
+void	ConfigureLoad_KB2400D( void )
 {
-	#ifdef	T_KB2400D
 		Configure.InstrumentType = type_KB2400D;//2400D
 		
 		Configure.PumpType[PP_TSP  ] = enumPumpNone;	Configure.SetFlow[PP_TSP  ]  = 1000u;	//	·Û³¾ ²ÉÑùÁ÷Á¿ 100.0 L/m
@@ -234,36 +211,14 @@ static	void	ConfigureLoad_KB2400D( void )
 		Configure.PumpType[PP_AIR  ] = enumPumpNone;	Configure.SetFlow[PP_AIR  ]  =  500u;	//	´óÆø Á÷Á¿ 0.5 L/m
 		Configure.AIRSetFlow[Q_PP1] = 5;
 		Configure.AIRSetFlow[Q_PP2] = 5;
+		
 		Configure.HeaterType = enumHCBoxOnly;	//	Ö»ÓĞºãÎÂÏä
-		Configure.Heater_SetTemp = 300u;		//	¼ÓÈÈÆ÷ºãÎÂÎÂ¶È 30.0 ¡æ
-		Configure.Heater_SW = FALSE;          // ¼ÓÈÈÆ÷²»¹¤×÷
-		
-		Configure.HCBox_SetMode = MD_Shut;		//	ºãÎÂÏä¿ØÖÆÄ£Ê½ [¹Ø±Õ]
-		Configure.HCBox_SetTemp = 240u;			//	ºãÎÂÏäºãÎÂÎÂ¶È 24.0 ¡æ
-
-		Configure.SetTstd = enum_293K;			//	±ê¿öÁ÷Á¿µÄ¶¨ÒåÎÂ¶È 
-		
-		Configure.Mothed_Delay = enumByDelay;	//	²ÉÑù¿ªÊ¼Ê±¼ä·½Ê½
-		Configure.Mothed_Sample = enumBySet;	//	²ÉÑùÊ±¼ä¿ØÖÆ·½Ê½
-
-		Configure.Mothed_Ba = enumMeasureBa;	//	´óÆøÑ¹Á¦»ñÈ¡·½Ê½
-		Configure.set_Ba    = 10133u;			//	±£´æÓÃ»§ÊäÈëÆøÑ¹
-
-		Configure.DisplayGray  = 2000u;	//	ÏÔÊ¾»Ò¶ÈÉèÖÃ
-		Configure.DisplayLight = 50u;	//	ÏÔÊ¾ÁÁ¶ÈÉèÖÃ
-		Configure.TimeoutLight = 2u;	//	±³¹âÑÓÊ±Ê±¼ä
 		
 		Configure.Battery_SW = FALSE;    //µç³ØÊÇ·ñ´æÔÚ
-	// 	Configure.ExNum = 1501000;			 //³ö³§±àºÅ
-		Configure.ExName = Name_JSD;
-		Configure.Password = 633817;
-		
-	#endif
 }
 
-static	void	ConfigureLoad_KB2400( void )
+void	ConfigureLoad_KB2400( void )
 {
-	#ifdef	T_KB2400
 		Configure.InstrumentType = type_KB2400;//2400
 		
 		Configure.PumpType[PP_TSP  ] = enumPumpNone;	Configure.SetFlow[PP_TSP  ]  = 1000u;	//	·Û³¾ ²ÉÑùÁ÷Á¿ 100.0 L/m
@@ -274,31 +229,11 @@ static	void	ConfigureLoad_KB2400( void )
 		Configure.PumpType[PP_AIR  ] = enumPumpNone;	Configure.SetFlow[PP_AIR  ]  =  500u;	//	´óÆø Á÷Á¿ 0.5 L/m
 		Configure.AIRSetFlow[Q_PP1] = 5;
 		Configure.AIRSetFlow[Q_PP2] = 5;
+		
 		Configure.HeaterType = enumHCBoxOnly;	//	Ö»ÓĞºãÎÂÏä
-		Configure.Heater_SetTemp = 300u;		//	¼ÓÈÈÆ÷ºãÎÂÎÂ¶È 30.0 ¡æ
-		Configure.Heater_SW = FALSE;          // ¼ÓÈÈÆ÷²»¹¤×÷
-		
-		Configure.HCBox_SetMode = MD_Shut;		//	ºãÎÂÏä¿ØÖÆÄ£Ê½ [¹Ø±Õ]
-		Configure.HCBox_SetTemp = 240u;			//	ºãÎÂÏäºãÎÂÎÂ¶È 24.0 ¡æ
-
-		Configure.SetTstd = enum_293K;			//	±ê¿öÁ÷Á¿µÄ¶¨ÒåÎÂ¶È 
-		
-		Configure.Mothed_Delay = enumByDelay;	//	²ÉÑù¿ªÊ¼Ê±¼ä·½Ê½
-		Configure.Mothed_Sample = enumBySet;	//	²ÉÑùÊ±¼ä¿ØÖÆ·½Ê½
-
-		Configure.Mothed_Ba = enumMeasureBa;	//	´óÆøÑ¹Á¦»ñÈ¡·½Ê½
-		Configure.set_Ba    = 10133u;			//	±£´æÓÃ»§ÊäÈëÆøÑ¹
-
-		Configure.DisplayGray  = 2000u;	//	ÏÔÊ¾»Ò¶ÈÉèÖÃ
-		Configure.DisplayLight = 50u;	//	ÏÔÊ¾ÁÁ¶ÈÉèÖÃ
-		Configure.TimeoutLight = 2u;	//	±³¹âÑÓÊ±Ê±¼ä
 		
 		Configure.Battery_SW = FALSE;    //µç³ØÊÇ·ñ´æÔÚ
-	// 	Configure.ExNum = 1501000;			 //³ö³§±àºÅ
-		Configure.ExName = Name_JSD;
-		Configure.Password = 633817;
-		
-	#endif
+
 }
 
 // static	void	ConfigureLoad_KB6120AD2( void )
@@ -336,6 +271,7 @@ static	void	ConfigureLoad_KB2400( void )
 // 	Configure.Battery_SW = FALSE;    //µç³ØÊÇ·ñ´æÔÚ
 // 	Configure.ExNum = 1501000;			 //³ö³§±àºÅ
 // }
+
 uint8_t KB2400D( enum enumPumpSelect PumpSelect )
 {
 	switch ( PumpSelect )
@@ -674,7 +610,6 @@ void	Configure_Instrument( void )
 	};
 	uint8_t item = 0u;
 	BOOL	changed = FALSE;
-
 	do {
 		cls();
 		Menu_Redraw( menu );		
@@ -726,7 +661,7 @@ void	Configure_Instrument( void )
 	
 	if ( changed )
 	{
-		ConfigureLoadDefault( );
+// 		ConfigureLoadDefault( );
 		ConfigureSave();
 	}
 	else
@@ -746,17 +681,26 @@ void	Configure_Instrument( void )
 // 	}
 // }
 void	ConfigureLoadDefault( void )
-{
-
+{	
+#ifdef				T_KB6120C
 	ConfigureLoad_KB6120C();
-	
+
+#elif	defined	T_KB6120B
 	ConfigureLoad_KB6120B();
 	
+#elif	defined	T_KB2400D
 	ConfigureLoad_KB2400D();
 	
-	ConfigureLoad_KB2400();	
-	
+#elif	defined	T_KB2400
+	ConfigureLoad_KB2400();
+#endif	
+	if ( Configure.DataValidMask != eDataValidMask )
+	{
+		ConfigureLoadDefault_KB6120E();
+		Configure.DataValidMask = eDataValidMask;
+	}
 }
+
 
 /********  (C) COPYRIGHT 2014 Çàµº½ğÊË´ïµç×Ó¿Æ¼¼ÓĞÏŞ¹«Ë¾  **** End Of File ****/
 

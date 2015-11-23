@@ -51,8 +51,9 @@ void	LCD_Volt_Adjust( void )
 		static	FP32 Up, Ud = 0.0f;
 		FP32  LCDSet; 
 		static	FP32	 Ek1 = 0.0f; 
-		LCDSet = 0; 
-		LCDSet = LCDSetGrayVolt + ( 38 - _CV_CPU_Temp( SensorLocal.CPU_IntTemp ) ) * 0.01f; //	ÎÂ²¹
+// 		LCDSet = 0; 
+// 		LCDSet = LCDSetGrayVolt + ( 38 - _CV_CPU_Temp( SensorLocal.CPU_IntTemp ) ) * 0.01f; //	ÎÂ²¹
+		LCDSet = LCDSetGrayVolt;
 		if( LCDSet > 22.0f )
 			LCDSet = 22.0f;	 
 		LCDVolt = _CV_LCD_Volt( SensorLocal.LCD_Voltage );
