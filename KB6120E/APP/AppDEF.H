@@ -287,7 +287,7 @@ extern	void	PWM2_SetOutput( uint16_t );
 
 extern BOOL	EditI32U( uint16_t yx, uint32_t * pNUM, uint16_t fmt );
 
-//Edition.C
+//	Edition.C
 extern	void	Animation( void );
 extern	uint8_t KB2400 		( enum enumPumpSelect PumpSelect );
 extern	uint8_t KB2400D		( enum enumPumpSelect PumpSelect );
@@ -297,8 +297,11 @@ extern	uint8_t KB6120C		( enum enumPumpSelect PumpSelect );
 extern	uint32_t	eDataValidMask; 
 extern	void	EditionSelsct( void );
 
-//Calibrate.c
+//	Calibrate.c
 extern	void	menu_Select_Calc_Pbv( void );
+
+//	SampleSet.c
+extern	BOOL SampleFinishFState[SamplerNum_Max];
 #include "SENSOR.H"
 #include "EEPROM.H"
 

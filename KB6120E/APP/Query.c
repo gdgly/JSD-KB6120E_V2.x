@@ -470,6 +470,7 @@ void	Query_File_TSP( void )
 				fname = FileNum_Max;
 				beep();
 				MsgBox( "文件满！", vbOKOnly );	
+				return;
 			}
 			else
 			{
@@ -685,7 +686,8 @@ void	Query_File_R24( void )
 			{
 				fname = FileNum_Max;
 				beep();
-				MsgBox( "文件满！", vbOKOnly );	
+				MsgBox( "文件满！", vbOKOnly );
+				return;				
 			}
 			else
 			{
@@ -900,7 +902,8 @@ void	Query_File_SHI( void )
 			{
 				fname = FileNum_Max;
 				beep();
-				MsgBox( "文件满！", vbOKOnly );	
+				MsgBox( "文件满！", vbOKOnly );
+				return;
 			}
 			else
 			{
@@ -1092,6 +1095,7 @@ void	Query_File_AIR( void )
 				fname = FileNum_Max;
 				beep();
 				MsgBox( "文件满！", vbOKOnly );	
+				return;
 			}
 			else
 			{
@@ -1461,6 +1465,7 @@ void	PowerLog_Query( void )
 		{
 			beep();
 			MsgBox("文件满！",vbOKOnly);
+			return;
 		}
 	} while( opt_exit != option );
 }

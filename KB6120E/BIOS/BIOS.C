@@ -730,20 +730,20 @@ uint8_t	bus_i2c_shin( enum I2C_AcknowlegeSet AcknowlegeSet )
 // 		delay_us( 1 );
 // 		if ( OutByte & 0x80u )
 // 		{
-// 			Pin_SPI1xMOSI = 1;
+// 			Pin_SPIxMOSI = 1;
 // 		}
 // 		else
 // 		{
-// 			Pin_SPI1xMOSI = 0;
+// 			Pin_SPIxMOSI = 0;
 // 		}
 
 // 		delay_us( 1 );
-// 		Pin_SPI1xSCK = 0;
+// 		Pin_SPIxSCK = 0;
 
 // 		delay_us( 1 );
 
 // 		OutByte <<= 1;
-// 		if ( Pin_SPI1xMISO )
+// 		if ( Pin_SPIxMISO )
 // 		{
 // 			OutByte |= 0x01u;
 // 		}
@@ -753,7 +753,7 @@ uint8_t	bus_i2c_shin( enum I2C_AcknowlegeSet AcknowlegeSet )
 // 		}
 
 // 		delay_us( 1 );
-// 		Pin_SPI1xSCK = 1;
+// 		Pin_SPIxSCK = 1;
 // 	}
 // 	
 // 	return	OutByte;

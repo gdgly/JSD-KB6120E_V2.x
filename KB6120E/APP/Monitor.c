@@ -207,7 +207,7 @@ static	void	ShowTimeState ( enum enumSamplerSelect SamplerSelect, enum enumPumpS
  	struct	uPumpQuery * pT = &Q_Pump[PumpSelect];
   Sampler_TdMonitor( SamplerSelect );
 	Lputs ( 0x0102u, "工况" );		//	ShowQueryType ( 0x000Au );
-	if( PumpSelect != PP_AIR )
+// 	if( PumpSelect != PP_AIR )
 	{
 		switch ( p->state )
 		{
@@ -223,28 +223,28 @@ static	void	ShowTimeState ( enum enumSamplerSelect SamplerSelect, enum enumPumpS
 		Lputs ( 0x0E02u, "压   力:" );	ShowFP32 ( 0x0E11u, get_Pr( PumpSelect ), 0x0602u, "kPa" );
 		Lputs ( 0x1102u, "大气压力:" );	ShowFP32 ( 0x1111u, get_Ba(),             0x0602u, "kPa" );
 		Lputs ( 0x1402u, "剩余时间:" );	ShowTIME ( 0x1416u, p->timer );	
-		Lputs ( 0x1702u, "采样时间:" );	ShowTIME ( 0x1716u, pT->sum_time );
+		Lputs ( 0x1702u, "已采时间:" );	ShowTIME ( 0x1716u, pT->sum_time );
 		Lputs ( 0x1A02u, "当前次数:" );	ShowI16U ( 0x1A11u, p->loops, 0x0500u, NULL );
 	}
-	else
-	{
-    
-		switch ( p->state )
-		{
-		default:
-		case state_ERROR:		Lputs ( 0x0605u, "    !!故障!!    " ); break;
-		case state_FINISH:	Lputs ( 0x0605u, "    完成采样    " );	break;
-		case state_SAMPLE:	Lputs ( 0x0605u, "    正在采样    " );	break;
-		case state_SUSPEND:	Lputs ( 0x0605u, "    等待采样    " );	break;
-		case state_PAUSE:		Lputs ( 0x0605u, "    暂停采样    " );	break;
-		}
-		Lputs ( 0x0902u, "温   度:" );	ShowFP32 ( 0x0911u, get_Tr( PumpSelect ), 0x0602u, "℃" );
-		Lputs ( 0x0C02u, "压   力:" );	ShowFP32 ( 0x0C11u, get_Pr( PumpSelect ), 0x0602u, "kPa" );
-		Lputs ( 0x0F02u, "大气压力:" );	ShowFP32 ( 0x0F11u, get_Ba(),             0x0602u, "kPa" );
-		Lputs ( 0x1202u, "剩余时间:" );	ShowTIME ( 0x1216u, p->timer );	
-		Lputs ( 0x1502u, "当前次数:" );	ShowI16U ( 0x1511u, p->loops, 0x0500u, NULL );
-		Lputs ( 0x1802u, "累积时间:" );	ShowTIME ( 0x1816u, pT->sum_time );
-	}		
+// 	else
+// 	{
+//     
+// 		switch ( p->state )
+// 		{
+// 		default:
+// 		case state_ERROR:		Lputs ( 0x0605u, "    !!故障!!    " ); break;
+// 		case state_FINISH:	Lputs ( 0x0605u, "    完成采样    " );	break;
+// 		case state_SAMPLE:	Lputs ( 0x0605u, "    正在采样    " );	break;
+// 		case state_SUSPEND:	Lputs ( 0x0605u, "    等待采样    " );	break;
+// 		case state_PAUSE:		Lputs ( 0x0605u, "    暂停采样    " );	break;
+// 		}
+// 		Lputs ( 0x0902u, "温   度:" );	ShowFP32 ( 0x0911u, get_Tr( PumpSelect ), 0x0602u, "℃" );
+// 		Lputs ( 0x0C02u, "压   力:" );	ShowFP32 ( 0x0C11u, get_Pr( PumpSelect ), 0x0602u, "kPa" );
+// 		Lputs ( 0x0F02u, "大气压力:" );	ShowFP32 ( 0x0F11u, get_Ba(),             0x0602u, "kPa" );
+// 		Lputs ( 0x1202u, "剩余时间:" );	ShowTIME ( 0x1216u, p->timer );	
+// 		Lputs ( 0x1502u, "当前次数:" );	ShowI16U ( 0x1511u, p->loops, 0x0500u, NULL );
+// 		Lputs ( 0x1802u, "累积时间:" );	ShowTIME ( 0x1816u, pT->sum_time );
+// 	}		
 		
 }
 
@@ -300,28 +300,11 @@ static	void	ShowPumpBefore( enum enumPumpSelect PumpSelect )
 				FP32	flow;
 				flow = Calc_flow( fstd, Te, 0.0f, Ba, Q_TSP );
 				Lputs ( 0x0602u, "工况体积: " );		ShowFP32 ( 0x0613u, p->vd,       0x0600u, "L" );
-				Lputs ( 0x0902u, "标况体积: " );		ShowFP32 ( 0x0913u, p->vnd,      0x0600u, "L" );
-				Lputs ( 0x0C02u, "工   况: " );		ShowFP32    ( 0x0C11u, flow, 0x0701u, "L/m" );
-				Lputs ( 0x0F02u, "标   况: " );		ShowFP32    ( 0x0F11u, fstd, 0x0701u, "L/m" );	
-				Lputs ( 0x1202u, "输   出:   " );		ShowPercent ( 0x1215u, OutValue );
-				switch ( Configure.HeaterType )
-				{
-				default:
-				case enumHeaterNone:	break;	//	MsgBox( "未安装恒温箱", vbOKOnly );	break;
-				case enumHCBoxOnly:
-					Lputs ( 0x1502u, "恒温箱温度:" );		ShowFP32 ( 0x1515u, get_HCBoxTemp(),     0x0602u, "℃" );
-					Lputs ( 0x1802u, "恒温箱输出:" );		ShowFP32 ( 0x1815u, get_HCBoxOutput(),   0x0501u, "% " );
-					Lputs ( 0x1B02u, "恒温箱风扇:" );		ShowI16U ( 0x1B15u, get_HCBoxFanSpeed(), 0x0500u, "RPM" );
-					break;
-				case enumHeaterOnly:		
-					Lputs ( 0x1502u, "加热器温度:" );		ShowFP32 ( 0x1513u, get_HeaterTemp(),     0x0602u, "℃" );
-					Lputs ( 0x1802u, "加热器输出:" );		ShowFP32 ( 0x1815u, get_HeaterOutput(),   0x0501u, "%" );
-					break;
-				case enumHCBoxHeater:
-					set_HCBoxTemp( Configure.HCBox_SetTemp * 0.1f, Configure.HCBox_SetMode );
-					set_HeaterTemp( Configure.Heater_SetTemp*0.1f);
-					break;
-				}
+				Lputs ( 0x0A02u, "标况体积: " );		ShowFP32 ( 0x0A13u, p->vnd,      0x0600u, "L" );
+				Lputs ( 0x0E02u, "工   况: " );		ShowFP32    ( 0x0E11u, flow, 0x0701u, "L/m" );
+				Lputs ( 0x1202u, "标   况: " );		ShowFP32    ( 0x1211u, fstd, 0x0701u, "L/m" );	
+				Lputs ( 0x1602u, "输   出:   " );	ShowPercent ( 0x1615u, OutValue );
+
 			}
 			break;
 		case PP_R24_A:
@@ -335,19 +318,20 @@ static	void	ShowPumpBefore( enum enumPumpSelect PumpSelect )
 		{
 		default:
 		case enumHeaterNone:	break;	//	MsgBox( "未安装恒温箱", vbOKOnly );	break;
-		case enumHCBoxOnly:
-			Lputs ( 0x1202u, "恒温箱温度:" );		ShowFP32 ( 0x1215u, get_HCBoxTemp(),     0x0602u, "℃" );
+		case enumHCBoxOnly://			空格->防止花屏
+			Lputs ( 0x1202u, "恒温箱温度:  " );	ShowFP32 ( 0x1215u, get_HCBoxTemp(),     0x0602u, "℃" );
 			Lputs ( 0x1602u, "恒温箱输出:" );		ShowFP32 ( 0x1615u, get_HCBoxOutput(),   0x0501u, "% " );
 			Lputs ( 0x1A02u, "恒温箱风扇:" );		ShowI16U ( 0x1A15u, get_HCBoxFanSpeed(), 0x0500u, "RPM" );
 			break;	
 		case enumHeaterOnly:
-			Lputs ( 0x1202u, "加热器      " );	
+			Lputs ( 0x1202u, "加热器            " );	
 			Lputs ( 0x1602u, "加热器温度:" );		ShowFP32 ( 0x1615u, get_HeaterTemp(),     0x0602u, "℃" );
 			Lputs ( 0x1A02u, "加热器输出:" );		ShowFP32 ( 0x1A15u, get_HeaterOutput(),   0x0501u, "%" );
 			break;
 		case enumHCBoxHeater:
-			set_HCBoxTemp( Configure.HCBox_SetTemp * 0.1f, Configure.HCBox_SetMode );
-			set_HeaterTemp( Configure.Heater_SetTemp*0.1f);
+// 			set_HCBoxTemp( Configure.HCBox_SetTemp * 0.1f, Configure.HCBox_SetMode );
+// 			set_HeaterTemp( Configure.Heater_SetTemp*0.1f);
+			Lputs ( 0x1602u, "硬件不支持!" );	
 			break;
 		}
 			break;
@@ -364,18 +348,23 @@ static	void	ShowPumpBefore( enum enumPumpSelect PumpSelect )
  ****************************************/
 void Samplestate_Select( BOOL state )
 {
-       static	struct  uMenu  const  menu[] =
+       static	struct  uMenu	menu1[] =
     {
         { 0x0103u, "采样状态控制" },
         { 0x0C02u, "暂停" },{ 0x0C0Eu, "停止" },{ 0x0C19u, "取消" }
 		
     };
-		   static	struct  uMenu  const  menu2[] =
+		   static	struct  uMenu	menu2[] =
     {
         { 0x0103u, "采样状态控制" },
         { 0x0C02u, "恢复" },{ 0x0C0Eu, "停止" },{ 0x0C1Bu, "取消" }
 		
     };
+		static	struct  uMenu	* menu[] = 
+		{
+			menu1,
+			menu2,
+		};
     uint8_t	item = 2u;
     BOOL	need_redraw = TRUE;
     do
@@ -383,16 +372,10 @@ void Samplestate_Select( BOOL state )
         if ( need_redraw )
         {
           cls();
-					if( state ==TRUE)
-            Menu_Redraw( menu2 );
-					else
-						Menu_Redraw( menu );
+					Menu_Redraw( menu[state] );
           need_redraw = FALSE;
         }
-				if( state == TRUE )
-					item = Menu_Select( menu2, item + 1u, NULL );
-				else
-					item = Menu_Select( menu, item + 1u, NULL );
+				item = Menu_Select( menu[state], item + 1u, NULL );
         switch( item )
         {
         case 1:
@@ -725,39 +708,12 @@ static	void	monitor_AIR ( void )
 	}
 }
 
-void	State_Finish( enum enumSamplerSelect SamplerSelect )
-{
-	cls();
-	SamplerTypeShow( 0x0102u );
-	WBMP( 0x0290,0x0502, STROCK);
-	WBMP( 0x0290,0x0514, STROCK);
-
-	switch( SamplerSelect )
-	{
-	case	Q_TSP: Lputs( 0x0102,  "TSP采样");	break;
-	case	Q_R24: Lputs( 0x0102, "日均采样");	break;
-	case	Q_SHI: Lputs( 0x0102, "时均采样");	break;
-	case	Q_AIR: Lputs( 0x0102, "大气采样");	break;
-	}
-	Lputs( 0x0A0C,	"采样完成!");
-	Lputs( 0x0F03,  "按确认键查询采样结果!");
-	do
-	{
-		Show_std_clock();
-	}while( !hitKey( 50 ) );
-
-	switch( getKey() )
-	{
-	case K_OK:	menu_SampleQuery();	break;
-	default:	break;
-	}
-}
 /********************************** 功能说明 ***********************************
 *  采样过程中显示各种状态
 *******************************************************************************/
 void	monitor ( void )
 {
-	static BOOL SampleFinishFState[SamplerNum_Max];
+
 	while ( Sampler_isRunning( SamplerSelect ) )
 	{
 		cls();
@@ -771,13 +727,7 @@ void	monitor ( void )
 		case Q_AIR:	monitor_AIR();	break;
 		}
 	
-	}
-	
-	if( (	Q_Sampler[SamplerSelect].state	== state_FINISH ) && SampleFinishFState[SamplerSelect] )
-	{
-		SampleFinishFState[SamplerSelect] = FALSE;
-		State_Finish( SamplerSelect );
-	}		
+	}	
 }
 
 /********************************** 功能说明 ***********************************
@@ -847,7 +797,7 @@ void	SamplerTypeSwitch( void )
 	}
 }
 
-void	DisplaySetContrast( uint8_t SetContrast );
+// void	DisplaySetContrast( uint8_t SetContrast );
 
 // /********************************** 功能说明 ***********************************
 // *  设置显示屏参数（有可能在看不到显示的情况下进入）
